@@ -1,7 +1,7 @@
 # CNY_game
 
-##Frontend
+## Frontend
 
-##Backend
+## Backend
 - Spring Boot
 - MYSQL
