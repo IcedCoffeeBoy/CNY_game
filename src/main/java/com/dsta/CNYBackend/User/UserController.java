@@ -15,11 +15,11 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/user")
 public class UserController {
-    UserService userService;
+    UsersService userDetailService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UsersService userDetailService) {
+        this.userDetailService = userDetailService;
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -27,13 +27,13 @@ public class UserController {
             @JsonView(UserResourceViews.Create.class) @RequestBody UserResource user
     ) {
         String username = user.getUsername();
-        if (this.userService.checkExistingUser(username)) {
+        if (this.userDetailService.checkExistingUser(username)) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "There is an existing username");
             return ResponseEntity.badRequest().body(map);
         }
 
-        User newUser = this.userService.createUser(username);
+        User newUser = this.userDetailService.createUser(username);
         Map<String, String> map = new HashMap<String, String>();
         map.put("username", newUser.getUsername());
         return ResponseEntity.ok(map);
