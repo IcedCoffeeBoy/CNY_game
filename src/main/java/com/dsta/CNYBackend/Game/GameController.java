@@ -28,4 +28,17 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
+    @GetMapping("/next")
+    public ResponseEntity<Map<String, String>> nextQuestion() {
+        if (!this.gameService.checkExistingGame()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("Error", "There is not existing game");
+            return ResponseEntity.badRequest().body(map);
+        }
+        this.gameService.nextQuestion();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("Success", "Next question");
+        return ResponseEntity.ok(map);
+    }
+
 }

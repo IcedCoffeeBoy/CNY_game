@@ -16,6 +16,10 @@ public class GameService {
         this.gameComponent.end();
     }
 
+    public void nextQuestion() {
+        this.gameComponent.nextQuestion();
+    }
+
     public Boolean checkExistingGame() {
         GameState gameState = this.gameComponent.getGameState();
         if (gameState.getQuestion() != 0) {
