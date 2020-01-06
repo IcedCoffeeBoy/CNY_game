@@ -2,9 +2,12 @@
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+
 <script language="javascript" type="text/javascript">
     var websocket;
     var output;
+    var stompClient = null;
 
     function init() {
         output = document.getElementById("output");
@@ -13,42 +16,58 @@
 
     function testWebSocket() {
         websocket = new SockJS('http://cny-game.herokuapp.com/game');
-        websocket.onopen = function(evt) {
-            onOpen(evt)
-        };
-        websocket.onclose = function(evt) {
-            onClose(evt)
-        };
-        websocket.onmessage = function(evt) {
-            onMessage(evt)
-        };
-        websocket.onerror = function(evt) {
-            onError(evt)
-        };
+        stompClient = Stomp.over(websocket);
+        stompClient.connect({}, function(frame) {
+            onOpen();
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/game', function(messageOutput) {
+                writeToScreen(JSON.parse(messageOutput.body));
+            });
+        });
+
+        // websocket.onopen = function(evt) {
+        //     onOpen(evt)
+        // };
+        // websocket.onclose = function(evt) {
+        //     onClose(evt)
+        // };
+        // websocket.onmessage = function(evt) {
+        //     onMessage(evt)
+        // };
+        // websocket.onerror = function(evt) {
+        //     onError(evt)
+        // };
     }
 
+
     function onOpen(evt) {
+        console.log("Connected");
         writeToScreen("CONNECTED");
-        doSend("WebSocket rocks");
+        console.log("Connected");
+        //doSend("WebSocket rocks");
     }
 
     function onClose(evt) {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        console.log("Disconnected");
         writeToScreen("DISCONNECTED");
     }
 
     function onMessage(evt) {
         writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data + '</span>');
-        websocket.close();
+        //websocket.close();
     }
 
     function onError(evt) {
         writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
     }
 
-    function doSend(message) {
-        writeToScreen("SENT: " + message);
-        websocket.send(message);
-    }
+    // function doSend(message) {
+    //     writeToScreen("SENT: " + message);
+    //     websocket.send(message);
+    // }
 
     function writeToScreen(message) {
         var pre = document.createElement("p");
