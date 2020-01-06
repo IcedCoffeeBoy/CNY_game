@@ -21,7 +21,8 @@
             onOpen();
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/game', function(messageOutput) {
-                writeToScreen(JSON.parse(messageOutput.body));
+
+                writeToScreen(JSON.stringify(messageOutput.body));
             });
         });
 

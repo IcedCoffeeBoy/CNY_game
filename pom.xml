@@ -10,6 +10,8 @@
     </parent>
     <groupId>com.dsta</groupId>
     <artifactId>CNYBackend</artifactId>
+    <version>1</version>
+
     <name>CNYBackend</name>
     <description>Spring Boot project for CNY game</description>
 
@@ -131,6 +133,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>CNYBackend</finalName>
     </build>
 
 </project>
