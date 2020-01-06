@@ -1,0 +1,17 @@
+
+[Unit]
+Description=My Webapp Java REST Service
+[Service]
+User=eitcoe
+# The configuration file application.properties should be here:
+#change this to your workspace
+WorkingDirectory=/home/eitcoe/CNY_game
+#path to executable. 
+#executable is a bash script which calls jar file
+ExecStart=/home/eitcoe/CNY_game/server/serve.sh
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
