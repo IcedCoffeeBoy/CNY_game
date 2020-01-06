@@ -10,7 +10,6 @@
     </parent>
     <groupId>com.dsta</groupId>
     <artifactId>CNYBackend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>CNYBackend</name>
     <description>Spring Boot project for CNY game</description>
 

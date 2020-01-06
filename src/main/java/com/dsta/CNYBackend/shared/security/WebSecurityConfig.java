@@ -2,8 +2,6 @@ package com.dsta.CNYBackend.shared.security;
 
 
 import com.dsta.CNYBackend.User.UsersService;
-import com.dsta.CNYBackend.shared.security.JwtAuthenticationEntryPoint;
-import com.dsta.CNYBackend.shared.security.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,15 +50,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate", "api/user/*").permitAll()
-
+                .authorizeRequests().antMatchers("/authenticate", "/api/user/create").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/",
+                        "/favicon.ico",
+                        "/**/*.png",
+                        "/**/*.gif",
+                        "/**/*.svg",
+                        "/**/*.jpg",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js")
+                .permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated()
 
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
