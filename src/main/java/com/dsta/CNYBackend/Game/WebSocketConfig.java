@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend;
+package com.dsta.CNYBackend.Game;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
