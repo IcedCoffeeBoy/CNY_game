@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <meta charset="utf-8" />
 <title>WebSocket Test</title>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script language="javascript" type="text/javascript">
-    var wsUri = "wss://cny-game.herokuapp.com/game";
+    var websocket;
     var output;
 
     function init() {
@@ -11,7 +12,7 @@
     }
 
     function testWebSocket() {
-        websocket = new WebSocket(wsUri);
+        websocket = new SockJS('http://cny-game.herokuapp.com/game');
         websocket.onopen = function(evt) {
             onOpen(evt)
         };
