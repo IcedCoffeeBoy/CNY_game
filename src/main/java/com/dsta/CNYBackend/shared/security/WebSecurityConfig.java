@@ -15,9 +15,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UsersService usersService;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private CORSFilter corsFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -52,8 +51,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .headers().frameOptions().disable()
+                .and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate", "/api/user/create", "/topic/*", "/game", "/api/game/*", "/actuator").permitAll()
+                .authorizeRequests().antMatchers("/authenticate", "/api/user/create", "/topic/*", "/game/*", "/api/game/*", "/actuator").permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/",
@@ -78,6 +79,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterAfter(corsFilter, JwtRequestFilter.class);
+
     }
 
 

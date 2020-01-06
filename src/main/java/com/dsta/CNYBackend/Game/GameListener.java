@@ -7,6 +7,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class GameListener {
     @Autowired
@@ -16,10 +18,9 @@ public class GameListener {
     @Autowired
     private GameComponent gameComponent;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @MessageMapping("/game")
     @SendTo("/topic/game")
-    public void enter() throws Exception {
+    public void enter(HttpServletResponse response) throws Exception {
         this.template.convertAndSend("/topic/game", this.gameComponent.getGameState());
     }
 
