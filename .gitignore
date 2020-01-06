@@ -33,3 +33,4 @@ build/
 ###
 /target
 tests/index2.html
+src/main/resources/environment.properties
