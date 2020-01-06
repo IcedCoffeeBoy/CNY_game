@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
 public class GameListener {
@@ -15,6 +16,7 @@ public class GameListener {
     @Autowired
     private GameComponent gameComponent;
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @MessageMapping("/game")
     @SendTo("/topic/game")
     public void enter() throws Exception {
