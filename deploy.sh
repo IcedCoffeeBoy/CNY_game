@@ -7,7 +7,7 @@ if [ "$UP_TO_DATE" = "Already up to date." ]; then
     echo $UP_TO_DATE
 else
     echo "pull and build"
-    mvn package
+    mvn clean package -DskipTests
 fi
 
 # Check for jar file and deploy jar file
@@ -16,5 +16,5 @@ if [ -f "$FILE" ]; then
     echo "$FILE exist, deploying"
 else
     echo "CNYBackend.jar not found, proceeding with build" 
-    mvn package
+    mvn clean package -DskipTests
 fi
