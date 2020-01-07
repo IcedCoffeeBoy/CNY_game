@@ -16,7 +16,7 @@ public class CORSFilter extends OncePerRequestFilter {
 
     // This is to be replaced with a list of domains allowed to access the server
     //You can include more than one origin here
-    private final List<String> allowedOrigins = Arrays.asList("http://localhost:3000");
+    private final List<String> allowedOrigins = Arrays.asList("http://localhost:3000","http://localhost:8080");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
