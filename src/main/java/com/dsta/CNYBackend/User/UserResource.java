@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.User;
+package com.dsta.CNYBackend.user;
 
 import com.fasterxml.jackson.annotation.JsonView;
 

@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.Game;
+package com.dsta.CNYBackend.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +18,13 @@ public class GameComponent {
     }
 
     public GameState start() {
+        this.gameState.startGame();
         this.nextQuestion();
         return this.gameState;
     }
 
     public GameState end() {
-        this.gameState = new GameState(0, GameState.State.END);
+        this.gameState.endGame();
         this.scheduleTimer.cancel();
         this.listener.sendGameState(this.gameState);
         return this.gameState;
@@ -42,7 +43,7 @@ public class GameComponent {
     public void nextQuestion() {
         this.gameState.nextQuestion();
         this.scheduleTimer = new Timer();
-        this.scheduleTimer.schedule(new GameTimerTask(this, this.gameState.getQuestion(), this.gameState.getState()), 5000);
+        this.scheduleTimer.schedule(new GameTimerTask(this, this.gameState.getQuestion(), this.gameState.getQuestionState()), 5000);
         this.listener.sendGameState(this.gameState);
     }
 
@@ -53,5 +54,9 @@ public class GameComponent {
 
     public void setTimer(int timer) {
         this.timer = timer;
+    }
+
+    public int getCurrentGameSessionId() {
+        return this.gameState.gameSessionId;
     }
 }

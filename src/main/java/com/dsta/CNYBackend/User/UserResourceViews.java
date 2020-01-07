@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.User;
+package com.dsta.CNYBackend.user;
 
 public interface UserResourceViews {
     public static interface Create {}

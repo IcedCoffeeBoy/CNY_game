@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.User;
+package com.dsta.CNYBackend.user;
 
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
 import com.fasterxml.jackson.annotation.JsonView;

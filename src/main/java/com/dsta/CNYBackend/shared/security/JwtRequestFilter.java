@@ -1,6 +1,6 @@
 package com.dsta.CNYBackend.shared.security;
 
-import com.dsta.CNYBackend.User.UsersService;
+import com.dsta.CNYBackend.user.UsersService;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.Game;
+package com.dsta.CNYBackend.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

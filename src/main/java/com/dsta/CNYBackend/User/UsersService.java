@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.User;
+package com.dsta.CNYBackend.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class UsersService implements UserDetailsService {
         if (user.isPresent()) {
             return user.get();
         } else {
-            throw new UsernameNotFoundException(String.format("Username[%s] not found"));
+            throw new UsernameNotFoundException("User not found");
         }
     }
 }

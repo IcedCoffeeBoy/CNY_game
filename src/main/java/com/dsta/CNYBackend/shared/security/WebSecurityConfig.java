@@ -1,7 +1,7 @@
 package com.dsta.CNYBackend.shared.security;
 
 
-import com.dsta.CNYBackend.User.UsersService;
+import com.dsta.CNYBackend.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:8080","http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("http://localhost:8080", "http://localhost:3000");
             }
         };
     }
@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/authenticate", "/api/user/create", "/topic/*", "/game/*", "/actuator").permitAll()
+                .authorizeRequests().antMatchers("/api/question/create","/api/game/*", "/authenticate", "/api/user/create", "/topic/*", "/game/*", "/actuator").permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/",

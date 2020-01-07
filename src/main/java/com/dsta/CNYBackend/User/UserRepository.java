@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.User;
+package com.dsta.CNYBackend.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

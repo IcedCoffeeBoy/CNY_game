@@ -1,6 +1,6 @@
 package com.dsta.CNYBackend.shared.security;
 
-import com.dsta.CNYBackend.User.UsersService;
+import com.dsta.CNYBackend.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

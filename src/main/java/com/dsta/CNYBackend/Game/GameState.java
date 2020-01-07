@@ -1,31 +1,57 @@
-package com.dsta.CNYBackend.Game;
+package com.dsta.CNYBackend.game;
+
+import java.util.Random;
 
 public class GameState {
-    enum State {
+    enum QuestionState {
         START,
         END
     }
 
+    enum ProgressState {
+        EMPTY,
+        WAITING,
+        PLAYING,
+        END
+    }
+
+    final int gameSessionId = getRandom();
     int question;
-    State state;
+    QuestionState questionState;
+    ProgressState progress;
 
     public GameState() {
         this.question = 0;
-        this.state = State.START;
+        this.questionState = QuestionState.START;
+        this.progress = ProgressState.EMPTY;
     }
 
-    public GameState(int question, State state) {
+    public GameState(int question, QuestionState questionState) {
         this.question = question;
-        this.state = state;
+        this.questionState = questionState;
+    }
+
+    public void waitGame() {
+        this.progress = ProgressState.WAITING;
+    }
+
+    public void startGame() {
+        this.progress = ProgressState.PLAYING;
+    }
+
+    public void endGame() {
+        this.setQuestion(0);
+        this.setQuestionState(GameState.QuestionState.END);
+        this.progress = ProgressState.END;
     }
 
     public void endQuestion() {
-        this.state = State.END;
+        this.questionState = QuestionState.END;
     }
 
     public void nextQuestion() {
         this.question++;
-        this.state = State.START;
+        this.questionState = QuestionState.START;
     }
 
     public int getQuestion() {
@@ -36,12 +62,17 @@ public class GameState {
         this.question = question;
     }
 
-    public State getState() {
-        return state;
+    public QuestionState getQuestionState() {
+        return questionState;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setQuestionState(QuestionState questionState) {
+        this.questionState = questionState;
+    }
+
+    private int getRandom() {
+        Random random = new Random(System.currentTimeMillis());
+        return random.nextInt(100000);
     }
 
 }
