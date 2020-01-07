@@ -11,6 +11,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -19,9 +20,10 @@ import java.util.Collection;
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
+@SequenceGenerator(name = "userIdSeq", sequenceName = "user_id_seq", allocationSize = 1)
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_id_seq")
     private Long id;
 
     @Column(name = "username", length = 50, unique = true)
