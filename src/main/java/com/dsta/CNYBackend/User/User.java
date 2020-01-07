@@ -18,7 +18,7 @@ import java.util.Collection;
 
 
 @Entity
-@Table(name = "user")
+@Table(name = "account")
 @EntityListeners(AuditingEntityListener.class)
 @SequenceGenerator(name = "userIdSeq", sequenceName = "user_id_seq", allocationSize = 1)
 public class User implements UserDetails {
