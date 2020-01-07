@@ -19,6 +19,10 @@ public class GameController {
 
     @GetMapping("/start")
     public ResponseEntity<Map<String, String>> startGame(Authentication authentication) {
+        if (authentication != null  && authentication.isAuthenticated()) {
+            System.out.println(authentication.getName());
+        }
+
         if (this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "There is an existing game");

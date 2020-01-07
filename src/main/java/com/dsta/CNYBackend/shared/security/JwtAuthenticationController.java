@@ -2,8 +2,6 @@ package com.dsta.CNYBackend.shared.security;
 
 import com.dsta.CNYBackend.User.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,8 +31,12 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) throws Exception {
-//        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        System.out.println(authenticationRequest.toString());
+        final String correctPassword = "cny@game";
+        String username = authenticationRequest.getUsername();
+        String password = authenticationRequest.getPassword();
+        if (username == "admin" && !password.equals(correctPassword)) {
+            return ResponseEntity.notFound().build();
+        }
         final UserDetails userDetails = usersService
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
@@ -57,8 +59,6 @@ public class JwtAuthenticationController {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
         cookie.setMaxAge(MAX_AGE_SECONDS);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
         return cookie;
     }
 }

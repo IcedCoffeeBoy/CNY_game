@@ -17,17 +17,17 @@ import java.util.Collection;
 
 
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "USERNAME", length = 50, unique = true)
+    @Column(name = "username", length = 50, unique = true)
     private String username;
 
-    @Column(name = "CREATED_AT")
+    @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createAt;
 
