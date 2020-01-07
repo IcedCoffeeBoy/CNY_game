@@ -62,4 +62,9 @@ public class GameController {
         return timer;
     }
 
+    @GetMapping("/state")
+    public GameState getState() {
+        return this.gameService.getGameState();
+    }
+
 }

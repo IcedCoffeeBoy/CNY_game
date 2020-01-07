@@ -1,6 +1,7 @@
 package com.dsta.CNYBackend.Game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,14 +15,13 @@ public class GameListener {
     @Autowired
     private SimpMessagingTemplate template;
 
-
     @Autowired
     private GameComponent gameComponent;
 
     @MessageMapping("/game")
     @SendTo("/topic/game")
-    public void enter(HttpServletResponse response) throws Exception {
-        this.template.convertAndSend("/topic/game", this.gameComponent.getGameState());
+    public GameState enter(HttpServletResponse response) throws Exception {
+        return this.gameComponent.getGameState();
     }
 
     public void sendGameState(GameState gameState) {

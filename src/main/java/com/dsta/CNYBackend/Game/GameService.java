@@ -33,4 +33,8 @@ public class GameService {
         this.gameComponent.setTimer(timer);
     }
 
+    public GameState getGameState() {
+        return this.gameComponent.getGameState();
+    }
+
 }

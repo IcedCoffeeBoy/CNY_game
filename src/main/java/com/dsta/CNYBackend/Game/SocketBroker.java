@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.shared.security;
+package com.dsta.CNYBackend.Game;
 
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
