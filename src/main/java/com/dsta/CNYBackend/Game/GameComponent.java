@@ -24,7 +24,7 @@ public class GameComponent {
 
     public GameState end() {
         this.gameState = new GameState(0, GameState.State.END);
-        this.scheduleTimer.cancel();1
+        this.scheduleTimer.cancel();
         this.listener.sendGameState(this.gameState);
         return this.gameState;
     }
