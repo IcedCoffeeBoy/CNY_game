@@ -10,6 +10,8 @@ public class GameState {
     State state;
 
     public GameState() {
+        this.question = 0;
+        this.state = State.START;
     }
 
     public GameState(int question, State state) {
@@ -41,7 +43,6 @@ public class GameState {
     public void setState(State state) {
         this.state = state;
     }
-
 
 }
 

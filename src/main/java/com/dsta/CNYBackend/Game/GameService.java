@@ -29,4 +29,8 @@ public class GameService {
         }
     }
 
+    public void setGameTimer(int timer) {
+        this.gameComponent.setTimer(timer);
+    }
+
 }
