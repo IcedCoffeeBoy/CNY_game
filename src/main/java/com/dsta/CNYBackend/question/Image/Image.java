@@ -22,7 +22,7 @@ import javax.persistence.Table;
         property = "id")
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "image_id_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "image_id_seq")
     private Long id;
 
     @Column(name = "url")

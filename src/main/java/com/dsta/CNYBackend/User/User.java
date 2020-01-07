@@ -23,7 +23,7 @@ import java.util.Collection;
 @SequenceGenerator(name = "userIdSeq", sequenceName = "user_id_seq", allocationSize = 1)
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_id_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_id_seq")
     private Long id;
 
     @Column(name = "username", length = 50, unique = true)

@@ -24,7 +24,7 @@ import java.util.Set;
         property = "id")
 public class Question {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "question_id_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "question_id_seq")
     private Long id;
 
     @Column(name = "position", unique = true, nullable = false)
