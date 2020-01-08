@@ -26,6 +26,7 @@ public class DatabaseConfig {
         config.setJdbcUrl(dbUrl);
         config.setUsername(dbUsername);
         config.setPassword(dbPassword);
+        config.setMaxLifetime(5 * 60000);
         return new HikariDataSource(config);
     }
 }
