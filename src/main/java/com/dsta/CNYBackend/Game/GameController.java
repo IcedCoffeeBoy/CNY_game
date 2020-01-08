@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping(value = "/api/game")
 public class GameController {
     @Autowired
@@ -97,7 +96,7 @@ public class GameController {
     }
 
     @GetMapping(value = "/state", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GameState> getState(Authentication authentication) {
+    public ResponseEntity<GameState> getState() {
         return ResponseEntity.ok(this.gameService.getGameState());
     }
 

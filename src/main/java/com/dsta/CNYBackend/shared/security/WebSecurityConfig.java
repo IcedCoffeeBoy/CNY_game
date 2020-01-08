@@ -61,9 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedMethods("GET, POST, PATCH, PUT, DELETE, OPTIONS")
-                        .allowedHeaders("Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin")
-                        .exposedHeaders("Access-Control-Expose-Headers", "Authorization", "Cache-Control", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin")
                         .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://localhost:4200")
                         .allowCredentials(true);
             }
@@ -77,13 +74,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             httpSecurity
                     .headers().frameOptions().disable()
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/authenticate", "/topic/*", "/game/*", "/api/user/create").permitAll()
-                    .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                    .and()
-                    .csrf().disable()
-                    .authorizeRequests()
                     .antMatchers("/",
                             "/favicon.ico",
                             "/**/*.png",
@@ -104,16 +98,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         } else {
             System.out.println("JWT protection is disable");
             httpSecurity
                     .headers().frameOptions().disable()
                     .and()
                     .csrf().disable()
-                    .authorizeRequests().antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
-                    .and()
-                    .csrf().disable()
                     .authorizeRequests()
+                    .antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
                     .antMatchers("/",
                             "/favicon.ico",
                             "/**/*.png",
