@@ -81,6 +81,8 @@ public class UserController {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
         cookie.setMaxAge(MAX_AGE_SECONDS);
+        cookie.setSecure(false);
+        cookie.setDomain("localhost");
         return cookie;
     }
 }

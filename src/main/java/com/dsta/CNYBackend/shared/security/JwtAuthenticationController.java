@@ -61,6 +61,7 @@ public class JwtAuthenticationController {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
         cookie.setMaxAge(MAX_AGE_SECONDS);
+        cookie.setSecure(false);
         return cookie;
     }
 }
