@@ -30,7 +30,7 @@ public class JwtAuthenticationController {
     private int MAX_AGE_SECONDS = 3600 * 3600;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletResponse response) throws Exception {
         final String correctPassword = "cny@game";
         String username = authenticationRequest.getUsername();
         String password = authenticationRequest.getPassword();

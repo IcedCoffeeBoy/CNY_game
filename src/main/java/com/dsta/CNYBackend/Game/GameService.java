@@ -20,9 +20,13 @@ public class GameService {
         this.gameComponent.nextQuestion();
     }
 
-    public void resetGame(){this.gameComponent.reset();}
+    public void resetGame() {
+        this.gameComponent.reset();
+    }
 
-    public void openGame(){this.gameComponent.open();}
+    public void openGame() {
+        this.gameComponent.open();
+    }
 
     public Boolean checkExistingGame() {
         GameState gameState = this.gameComponent.getGameState();

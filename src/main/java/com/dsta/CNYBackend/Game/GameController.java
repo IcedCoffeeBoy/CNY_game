@@ -1,8 +1,10 @@
 package com.dsta.CNYBackend.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,12 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(value = "/api/game")
 public class GameController {
     @Autowired
     private GameService gameService;
 
-    @GetMapping("/start")
+    @GetMapping(value = "/start", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> startGame(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             System.out.println(authentication.getName());
@@ -34,7 +37,7 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/next")
+    @GetMapping(value = "/next", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> nextQuestion() {
         if (!this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
@@ -47,7 +50,7 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/end")
+    @GetMapping(value = "/end", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> endGame() {
         if (!this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
@@ -60,8 +63,8 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/reset")
-    public ResponseEntity<Map<String,String>> resetGame(){
+    @GetMapping(value = "/reset", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> resetGame() {
         if (!this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "There is not existing game");
@@ -73,8 +76,8 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
-    @GetMapping("/open")
-    public ResponseEntity<Map<String,String>> openGame(){
+    @GetMapping(value = "/open", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Map<String, String>> openGame() {
         if (this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "There is an existing game");
@@ -93,8 +96,8 @@ public class GameController {
         return timer;
     }
 
-    @GetMapping("/state")
-    public ResponseEntity<GameState> getState() {
+    @GetMapping(value = "/state", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GameState> getState(Authentication authentication) {
         return ResponseEntity.ok(this.gameService.getGameState());
     }
 

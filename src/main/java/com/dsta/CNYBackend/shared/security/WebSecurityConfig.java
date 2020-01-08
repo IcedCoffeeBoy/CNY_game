@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -60,6 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
+                        .allowedMethods("GET, POST, PATCH, PUT, DELETE, OPTIONS")
+                        .allowedHeaders("Authorization", "Cache-Control", "Content-Type", "Accept", "X-Requested-With", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin")
+                        .exposedHeaders("Access-Control-Expose-Headers", "Authorization", "Cache-Control", "Content-Type", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Origin")
                         .allowedOrigins("http://localhost:8080", "http://localhost:3000", "http://localhost:4200")
                         .allowCredentials(true);
             }
@@ -76,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .authorizeRequests().antMatchers("/authenticate", "/topic/*", "/game/*", "/api/user/create").permitAll()
                     .and()
+                    .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/",
                             "/favicon.ico",
@@ -105,6 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .authorizeRequests().antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
                     .and()
+                    .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/",
                             "/favicon.ico",
