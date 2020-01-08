@@ -31,7 +31,50 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
+    @Column(name = "choice")
+    private Long choice;
+
     @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Long getChoice() {
+        return choice;
+    }
+
+    public void setChoice(Long choice) {
+        this.choice = choice;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
 }
