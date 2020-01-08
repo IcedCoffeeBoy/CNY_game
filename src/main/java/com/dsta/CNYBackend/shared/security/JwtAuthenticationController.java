@@ -40,10 +40,6 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = usersService
                 .loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
-        Cookie cookie = createCookie("Authorization", String.format("Bearer%s", token));
-        response.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.addCookie(cookie);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
