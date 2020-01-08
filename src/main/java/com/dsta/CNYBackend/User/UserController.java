@@ -48,6 +48,8 @@ public class UserController {
         final String token = jwtTokenUtil.generateToken(newUser);
         Cookie cookie = createCookie("Authorization", String.format("Bearer%s", token));
         response.addCookie(cookie);
+        response.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         Map<String, String> map = new HashMap<String, String>();
         map.put("username", newUser.getUsername());
         return ResponseEntity.ok(map);
@@ -79,7 +81,6 @@ public class UserController {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
         cookie.setMaxAge(MAX_AGE_SECONDS);
-        cookie.setDomain("http://localhost:3000");
         return cookie;
     }
 }
