@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping(value = "/api/question")
 public class QuestionController {
@@ -30,5 +33,11 @@ public class QuestionController {
     public ResponseEntity<Question> getQuestion(@PathVariable("position") Integer position) {
         Question question = this.questionService.getQuestionByPosition(position);
         return ResponseEntity.ok(question);
+    }
+
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Question>> getAllQuestions() {
+        List<Question> questions = this.questionService.getAllQuestions();
+        return ResponseEntity.ok(questions);
     }
 }

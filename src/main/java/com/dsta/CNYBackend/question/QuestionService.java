@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -23,5 +24,10 @@ public class QuestionService {
     public Question getQuestionByPosition(Integer position) {
         List<Question> questions = this.questionRepository.getQuestionsByPosition(position);
         return questions.get(0);
+    }
+
+    public List<Question> getAllQuestions() {
+        List<Question> questions = this.questionRepository.findAll();
+        return questions;
     }
 }
