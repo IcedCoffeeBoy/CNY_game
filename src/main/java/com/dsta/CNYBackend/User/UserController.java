@@ -40,7 +40,7 @@ public class UserController {
         String username = user.getUsername();
         if (this.userDetailService.checkExistingUser(username)) {
             Map<String, String> map = new HashMap<String, String>();
-            map.put("Error", "There is an existing username");
+            map.put("error", "There is an existing username");
             return ResponseEntity.badRequest().body(map);
         }
 
