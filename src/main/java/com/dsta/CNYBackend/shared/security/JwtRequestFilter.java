@@ -12,7 +12,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,23 +26,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        String requestTokenCookie = null;
+        final String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Authorization")) {
-                    requestTokenCookie = cookie.getValue();
-                    break;
-                }
-            }
-        }
-
         // JWT Token is in the form "Bearer token". Remove Bearer word and get
         // only the Token
-        if (requestTokenCookie != null && requestTokenCookie.startsWith("Bearer")) {
-            jwtToken = requestTokenCookie.substring(6);
+        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer")) {
+            jwtToken = requestTokenHeader.substring(6);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {

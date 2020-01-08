@@ -1,5 +1,6 @@
 package com.dsta.CNYBackend.user;
 
+import com.dsta.CNYBackend.shared.security.JwtResponse;
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> createUser(
+    public ResponseEntity<?> createUser(
             @JsonView(UserResourceViews.Create.class) @RequestBody UserResource user,
             HttpServletResponse response
     ) {
@@ -46,17 +47,11 @@ public class UserController {
 
         User newUser = this.userDetailService.createUser(username);
         final String token = jwtTokenUtil.generateToken(newUser);
-        Cookie cookie = createCookie("Authorization", String.format("Bearer%s", token));
-        response.addCookie(cookie);
-        response.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("username", newUser.getUsername());
-        return ResponseEntity.ok(map);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     @GetMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> createUserUsingGET(
+    public ResponseEntity<?> createUserUsingGET(
             @RequestParam(value = "username") String username,
             HttpServletResponse response
     ) {
@@ -67,13 +62,7 @@ public class UserController {
         }
         User newUser = this.userDetailService.createUser(username);
         final String token = jwtTokenUtil.generateToken(newUser);
-        Cookie cookie = createCookie("Authorization", String.format("Bearer%s", token));
-        response.addCookie(cookie);
-        response.setHeader("Access-Control-Expose-Headers", "Set-Cookie");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("username", newUser.getUsername());
-        return ResponseEntity.ok(map);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 
 
