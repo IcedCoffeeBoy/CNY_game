@@ -28,6 +28,10 @@ public class UsersService implements UserDetailsService {
         return saved;
     }
 
+    public User updateUser(User user) {
+        return this.userRepository.save(user);
+    }
+
     public Boolean checkExistingUser(String username) {
         User user = new User();
         user.setUsername(username);

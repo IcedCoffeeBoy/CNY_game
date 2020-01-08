@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Answer> answers;
 
+    @Column(name="score")
+    private Integer score;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -102,6 +105,14 @@ public class User implements UserDetails {
 
     public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class Question {
     private Long id;
 
     @Column(name = "position", unique = true, nullable = false)
-    private int position;
+    private Integer position;
 
     @Column(name = "title", nullable = false)
     private String title;
