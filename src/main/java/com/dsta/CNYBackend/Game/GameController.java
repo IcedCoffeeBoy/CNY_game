@@ -19,7 +19,7 @@ public class GameController {
 
     @GetMapping("/start")
     public ResponseEntity<Map<String, String>> startGame(Authentication authentication) {
-        if (authentication != null  && authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             System.out.println(authentication.getName());
         }
 
@@ -60,6 +60,33 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
+    @GetMapping("/reset")
+    public ResponseEntity<Map<String,String>> resetGame(){
+        if (!this.gameService.checkExistingGame()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("Error", "There is not existing game");
+            return ResponseEntity.badRequest().body(map);
+        }
+        this.gameService.resetGame();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("Success", "Reset game");
+        return ResponseEntity.ok(map);
+    }
+
+    @GetMapping("/open")
+    public ResponseEntity<Map<String,String>> openGame(){
+        if (this.gameService.checkExistingGame()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("Error", "There is an existing game");
+            return ResponseEntity.badRequest().body(map);
+        }
+        this.gameService.openGame();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("Success", "Open game");
+        return ResponseEntity.ok(map);
+    }
+
+
     @GetMapping("/setTimer")
     public Integer setTimer(@RequestParam(value = "timer", required = true) int timer) {
         this.gameService.setGameTimer(timer);
@@ -67,8 +94,8 @@ public class GameController {
     }
 
     @GetMapping("/state")
-    public GameState getState() {
-        return this.gameService.getGameState();
+    public ResponseEntity<GameState> getState() {
+        return ResponseEntity.ok(this.gameService.getGameState());
     }
 
 }

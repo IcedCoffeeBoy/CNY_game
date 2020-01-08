@@ -17,14 +17,27 @@ public class GameComponent {
         this.gameState = new GameState();
     }
 
+    public GameState open() {
+        this.gameState.setProgressToWait();
+        this.listener.sendGameState(this.gameState);
+        return this.gameState;
+    }
+
     public GameState start() {
-        this.gameState.startGame();
+        this.gameState.setProgressToPlaying();
         this.nextQuestion();
         return this.gameState;
     }
 
     public GameState end() {
-        this.gameState.endGame();
+        this.gameState.endGameAndSetProgressToEnd();
+        this.scheduleTimer.cancel();
+        this.listener.sendGameState(this.gameState);
+        return this.gameState;
+    }
+
+    public GameState reset() {
+        this.gameState = new GameState();
         this.scheduleTimer.cancel();
         this.listener.sendGameState(this.gameState);
         return this.gameState;

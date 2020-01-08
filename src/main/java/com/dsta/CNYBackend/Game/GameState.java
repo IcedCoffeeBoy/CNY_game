@@ -31,15 +31,15 @@ public class GameState {
         this.questionState = questionState;
     }
 
-    public void waitGame() {
+    public void setProgressToWait() {
         this.progress = ProgressState.WAITING;
     }
 
-    public void startGame() {
+    public void setProgressToPlaying() {
         this.progress = ProgressState.PLAYING;
     }
 
-    public void endGame() {
+    public void endGameAndSetProgressToEnd() {
         this.setQuestion(0);
         this.setQuestionState(GameState.QuestionState.END);
         this.progress = ProgressState.END;
