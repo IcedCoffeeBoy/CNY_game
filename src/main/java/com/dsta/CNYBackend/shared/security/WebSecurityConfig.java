@@ -3,6 +3,7 @@ package com.dsta.CNYBackend.shared.security;
 
 import com.dsta.CNYBackend.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,12 +24,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Value("${jwt.protect:false}")
+    private Boolean isProtected;
+
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
     private UsersService usersService;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -61,33 +66,66 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .headers().frameOptions().disable()
-                .and()
-                .csrf().disable()
-                .authorizeRequests().antMatchers("/api/question/create", "/api/game/*", "/authenticate", "/api/user/create", "/topic/*", "/game/*", "/actuator").permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/",
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                // all other requests need to be authenticated
-                .anyRequest().authenticated()
+        if (isProtected) {
+            System.out.println("JWT protection is enable");
+            httpSecurity
+                    .headers().frameOptions().disable()
+                    .and()
+                    .csrf().disable()
+                    .authorizeRequests().antMatchers("/authenticate", "/topic/*", "/game/*", "/api/user/create").permitAll()
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/",
+                            "/favicon.ico",
+                            "/**/*.png",
+                            "/**/*.gif",
+                            "/**/*.svg",
+                            "/**/*.jpg",
+                            "/**/*.html",
+                            "/**/*.css",
+                            "/**/*.js")
+                    .permitAll()
+                    // all other requests need to be authenticated
+                    .anyRequest().authenticated()
 
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
+                    // make sure we use stateless session; session won't be used to
+                    // store user's state.
 //                .and()
 //                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        } else {
+            System.out.println("JWT protection is disable");
+            httpSecurity
+                    .headers().frameOptions().disable()
+                    .and()
+                    .csrf().disable()
+                    .authorizeRequests().antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
+                    .and()
+                    .authorizeRequests()
+                    .antMatchers("/",
+                            "/favicon.ico",
+                            "/**/*.png",
+                            "/**/*.gif",
+                            "/**/*.svg",
+                            "/**/*.jpg",
+                            "/**/*.html",
+                            "/**/*.css",
+                            "/**/*.js")
+                    .permitAll()
+                    // all other requests need to be authenticated
+                    .anyRequest().authenticated()
+
+                    // make sure we use stateless session; session won't be used to
+                    // store user's state.
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        }
+
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
@@ -96,6 +134,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/game/**");
     }
-
-
 }
