@@ -1,11 +1,16 @@
 package com.dsta.CNYBackend.user;
 
+import com.dsta.CNYBackend.answer.Answer;
 import com.dsta.CNYBackend.shared.security.JwtResponse;
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +22,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -63,6 +69,18 @@ public class UserController {
         User newUser = this.userDetailService.createUser(username);
         final String token = jwtTokenUtil.generateToken(newUser);
         return ResponseEntity.ok(new JwtResponse(token));
+    }
+
+    @GetMapping(value = "/answers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserAnswers(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("error", "User is not authenticated");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
+        }
+        String username = authentication.getName();
+        User user = this.userDetailService.loadUserObjectByUsername(username);
+        return ResponseEntity.ok(user.getAnswers());
     }
 
 

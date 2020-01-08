@@ -104,6 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             httpSecurity
                     .headers().frameOptions().disable()
                     .and()
+                    .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()

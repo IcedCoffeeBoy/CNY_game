@@ -1,5 +1,7 @@
 package com.dsta.CNYBackend.user;
 
+import com.dsta.CNYBackend.answer.Answer;
+import com.dsta.CNYBackend.question.Question;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,10 +13,12 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 
 @Entity
@@ -33,13 +37,9 @@ public class User implements UserDetails {
     @CreatedDate
     private LocalDateTime createAt;
 
-    public Long getId() {
-        return id;
-    }
+    @OneToMany(mappedBy = "user")
+    private Set<Answer> answers;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -49,14 +49,6 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return null;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     @Override
@@ -79,6 +71,38 @@ public class User implements UserDetails {
         return false;
     }
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
 
     @Override
     public String toString() {

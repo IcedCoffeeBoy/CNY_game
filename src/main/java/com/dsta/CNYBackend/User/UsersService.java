@@ -35,6 +35,15 @@ public class UsersService implements UserDetailsService {
         return exist.isPresent();
     }
 
+    public User loadUserObjectByUsername(String s) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByUsername(s);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(s);
@@ -44,4 +53,5 @@ public class UsersService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
     }
+
 }
