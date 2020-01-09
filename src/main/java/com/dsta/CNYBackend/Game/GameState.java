@@ -69,6 +69,18 @@ public class GameState {
         this.questionState = questionState;
     }
 
+    public int getGameSessionId() {
+        return gameSessionId;
+    }
+
+    public ProgressState getProgress() {
+        return progress;
+    }
+
+    public void setProgress(ProgressState progress) {
+        this.progress = progress;
+    }
+
     private int getRandom() {
         Random random = new Random(System.currentTimeMillis());
         return random.nextInt(100000);

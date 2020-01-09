@@ -79,4 +79,15 @@ public class Answer {
     public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", user=" + user +
+                ", question=" + question +
+                ", choice=" + choice +
+                ", createAt=" + createAt +
+                '}';
+    }
 }

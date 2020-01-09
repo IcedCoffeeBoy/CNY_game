@@ -18,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -63,8 +65,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .allowedOrigins("http://eitcnyadmin.z23.web.core.windows.net","http://localhost:8080", "http://localhost:3000", "http://localhost:4200")
                         .allowCredentials(true);
             }
+
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler("swagger-ui.html")
+                        .addResourceLocations("classpath:/META-INF/resources/");
+
+                registry.addResourceHandler("/webjars/**")
+                        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+            }
         };
     }
+
+
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {

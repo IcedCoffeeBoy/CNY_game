@@ -47,6 +47,9 @@ public class GameUtil {
     private List<Answer> sortAnswerByDate(List<Answer> answers) {
         Collections.sort(answers, Comparator.comparing(Answer::getCreateAt)
         );
+        for (Answer answer : answers) {
+            System.out.println(answer.toString());
+        }
         return answers;
     }
 
