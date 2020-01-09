@@ -1,5 +1,6 @@
 package com.dsta.CNYBackend.poll;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/poll")
+@ApiOperation(value = "API endpoint for the final poll results of each question")
 public class PollController {
     private PollService pollService;
 
@@ -22,6 +24,7 @@ public class PollController {
         this.pollService = pollService;
     }
 
+    @ApiOperation(value = "API endpoint to get poll result for question")
     @GetMapping(value = "/{position}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getPoll(@PathVariable("position") Integer position) {
         Optional<Poll> exist = this.pollService.getPollByPosition(position);
@@ -32,6 +35,7 @@ public class PollController {
         }
     }
 
+    @ApiOperation(value = "API endpoint to get all poll results")
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.ok(this.pollService.getAll());
