@@ -59,6 +59,10 @@ public class GameComponent {
     }
 
     public void nextQuestion() {
+        if (this.isLastQuestion()) {
+            this.end();
+            return;
+        }
         this.gameState.nextQuestion();
         this.scheduleTimer = new Timer();
         this.scheduleTimer.schedule(new GameTimerTask(this, this.gameState.getQuestion(), this.gameState.getQuestionState()), 5000);
@@ -76,5 +80,14 @@ public class GameComponent {
 
     public int getCurrentGameSessionId() {
         return this.gameState.gameSessionId;
+    }
+
+    private Boolean isLastQuestion() {
+        int position = this.gameState.getQuestion();
+        if (position == this.questionSize) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
