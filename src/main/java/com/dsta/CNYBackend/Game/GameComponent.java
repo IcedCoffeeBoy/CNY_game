@@ -9,6 +9,8 @@ import java.util.Timer;
 public class GameComponent {
     @Autowired
     GameListener listener;
+    @Autowired
+    GameUtil gameUtil;
     GameState gameState;
     Timer scheduleTimer;
     int timer = 60;
@@ -50,6 +52,7 @@ public class GameComponent {
     public void endQuestion() {
         this.gameState.endQuestion();
         this.scheduleTimer.cancel();
+        this.gameUtil.addPointsToWinner(this.gameState.getQuestion());
         this.listener.sendGameState(this.gameState);
     }
 

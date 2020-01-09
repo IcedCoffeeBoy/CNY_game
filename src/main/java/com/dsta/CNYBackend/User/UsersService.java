@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,6 +58,13 @@ public class UsersService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException("User not found");
         }
+    }
+
+    public List<UserScore> getAllUserScore() {
+        List<User> users = this.userRepository.findAll();
+        users.sort((user1, user2) -> user2.getScore() - user1.getScore());
+        List<UserScore> userScores = users.stream().map(user -> new UserScore(user.getUsername(), user.getScore())).collect(Collectors.toList());
+        return userScores;
     }
 
 }

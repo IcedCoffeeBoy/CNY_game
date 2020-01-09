@@ -1,7 +1,6 @@
 package com.dsta.CNYBackend.user;
 
 import com.dsta.CNYBackend.answer.Answer;
-import com.dsta.CNYBackend.question.Question;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;

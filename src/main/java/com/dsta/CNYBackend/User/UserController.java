@@ -71,8 +71,8 @@ public class UserController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @GetMapping(value = "/answers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getUserAnswers(Authentication authentication) {
+    @GetMapping(value = "/response", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getUserResponse(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             Map<String, String> errors = new HashMap<>();
             errors.put("error", "User is not authenticated");
@@ -81,6 +81,11 @@ public class UserController {
         String username = authentication.getName();
         User user = this.userDetailService.loadUserObjectByUsername(username);
         return ResponseEntity.ok(user.getAnswers());
+    }
+
+    @GetMapping(value = "/rank", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getRank() {
+        return ResponseEntity.ok(this.userDetailService.getAllUserScore());
     }
 
 

@@ -11,5 +11,4 @@ public class CnyBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(CnyBackendApplication.class, args);
     }
-
 }

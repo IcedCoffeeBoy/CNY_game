@@ -35,6 +35,9 @@ public class GameUtil {
         for (Answer answer : filterAndSort) {
             User user = answer.getUser();
             Integer score = user.getScore();
+            if (score == null) {
+                score = 0;
+            }
             user.setScore(score + point);
             this.usersService.updateUser(user);
             point = point - falloff;

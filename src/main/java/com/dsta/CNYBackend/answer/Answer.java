@@ -2,10 +2,11 @@ package com.dsta.CNYBackend.answer;
 
 import com.dsta.CNYBackend.question.Question;
 import com.dsta.CNYBackend.user.User;
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "answer")
 @SequenceGenerator(name = "answerIdSeq", sequenceName = "answer_id_seq", allocationSize = 1)
+@EntityListeners(AuditingEntityListener.class)
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "answer_id_seq")
@@ -35,8 +37,8 @@ public class Answer {
     private Long choice;
 
     @Column(name = "created_at")
-    @CreatedDate
     private LocalDateTime createAt;
+
 
     public Long getId() {
         return id;

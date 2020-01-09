@@ -41,11 +41,7 @@ public class AnswerController {
         }
         User user = (User) authentication.getPrincipal();
         Question question = this.questionService.getQuestionByPosition(position);
-        Answer save = new Answer();
-        save.setQuestion(question);
-        save.setUser(user);
-        save.setChoice(answer.getChoice());
-        this.answerService.save(save);
+        this.answerService.save(question, answer.getChoice(), user);
 
         Map<String, String> sucesss = new HashMap<>();
         sucesss.put("success", "Answer has been recorded");
