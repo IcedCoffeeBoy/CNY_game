@@ -1,18 +1,17 @@
 package com.dsta.CNYBackend.question;
 
 import com.dsta.CNYBackend.question.Image.Image;
-import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.Set;
 
 public class QuestionResource {
-    @JsonView({QuestionResourceView.List.class})
+
     private Long id;
-    @JsonView({QuestionResourceView.List.class})
+
     private int position;
-    @JsonView({QuestionResourceView.List.class})
+
     private String title;
-    @JsonView({QuestionResourceView.List.class})
+
     private Set<Image> images;
 
     public Long getId() {

@@ -2,6 +2,8 @@ package com.dsta.CNYBackend.game;
 
 import com.dsta.CNYBackend.answer.Answer;
 import com.dsta.CNYBackend.answer.AnswerService;
+import com.dsta.CNYBackend.poll.Poll;
+import com.dsta.CNYBackend.poll.PollService;
 import com.dsta.CNYBackend.question.Question;
 import com.dsta.CNYBackend.question.QuestionService;
 import com.dsta.CNYBackend.user.User;
@@ -21,12 +23,14 @@ public class GameUtil {
     private UsersService usersService;
     private AnswerService answerService;
     private QuestionService questionService;
+    private PollService pollService;
 
     @Autowired
-    public GameUtil(UsersService usersService, AnswerService answerService, QuestionService questionService) {
+    public GameUtil(UsersService usersService, AnswerService answerService, QuestionService questionService, PollService pollService) {
         this.usersService = usersService;
         this.answerService = answerService;
         this.questionService = questionService;
+        this.pollService = pollService;
     }
 
     public int getTotalNumberOfQuestions() {
@@ -37,6 +41,7 @@ public class GameUtil {
     public void addPointsToWinner(Integer position) {
         List<Answer> answers = answerService.getAnswersByQuestionPosition(position);
         Long choice = getPoll(answers);
+        this.pollService.save(new Poll(position, choice));
         List<Answer> filter = filterAnswerByChoice(answers, choice);
         List<Answer> filterAndSort = sortAnswerByDate(filter);
         int point = 200;
