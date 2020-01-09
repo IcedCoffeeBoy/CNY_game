@@ -14,6 +14,7 @@ public class GameComponent {
     GameState gameState;
     Timer scheduleTimer;
     int timer = 60;
+    int questionSize;
 
     public GameComponent() {
         this.gameState = new GameState();
@@ -27,6 +28,7 @@ public class GameComponent {
 
     public GameState start() {
         this.gameState.setProgressToPlaying();
+        this.questionSize = this.gameUtil.getTotalNumberOfQuestions();
         this.nextQuestion();
         return this.gameState;
     }

@@ -2,6 +2,8 @@ package com.dsta.CNYBackend.game;
 
 import com.dsta.CNYBackend.answer.Answer;
 import com.dsta.CNYBackend.answer.AnswerService;
+import com.dsta.CNYBackend.question.Question;
+import com.dsta.CNYBackend.question.QuestionService;
 import com.dsta.CNYBackend.user.User;
 import com.dsta.CNYBackend.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,18 @@ import java.util.stream.Collectors;
 public class GameUtil {
     private UsersService usersService;
     private AnswerService answerService;
+    private QuestionService questionService;
 
     @Autowired
-    public GameUtil(UsersService usersService, AnswerService answerService) {
+    public GameUtil(UsersService usersService, AnswerService answerService, QuestionService questionService) {
         this.usersService = usersService;
         this.answerService = answerService;
+        this.questionService = questionService;
+    }
+
+    public int getTotalNumberOfQuestions() {
+        List<Question> questions = this.questionService.getAllQuestions();
+        return questions.size();
     }
 
     public void addPointsToWinner(Integer position) {
