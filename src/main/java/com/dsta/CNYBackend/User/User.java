@@ -17,6 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
@@ -37,7 +38,7 @@ public class User implements UserDetails {
     private LocalDateTime createAt;
 
     @OneToMany(mappedBy = "user")
-    private Set<Answer> answers;
+    private List<Answer> answers;
 
     @Column(name="score")
     private Integer score;
@@ -98,11 +99,11 @@ public class User implements UserDetails {
         this.createAt = createAt;
     }
 
-    public Set<Answer> getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Set<Answer> answers) {
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 

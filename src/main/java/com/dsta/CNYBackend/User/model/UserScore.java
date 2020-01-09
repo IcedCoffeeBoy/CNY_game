@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.user;
+package com.dsta.CNYBackend.user.model;
 
 public class UserScore {
     private String username;

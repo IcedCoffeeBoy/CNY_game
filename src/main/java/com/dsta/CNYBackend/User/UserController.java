@@ -3,6 +3,7 @@ package com.dsta.CNYBackend.user;
 import com.dsta.CNYBackend.answer.Answer;
 import com.dsta.CNYBackend.shared.security.JwtResponse;
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
+import com.dsta.CNYBackend.user.model.UserResponse;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -80,8 +82,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
         }
         String username = authentication.getName();
-        User user = this.userDetailService.loadUserObjectByUsername(username);
-        return ResponseEntity.ok(user.getAnswers());
+        List<UserResponse> responses = this.userDetailService.getAllUserResponse(username);
+        return ResponseEntity.ok(responses);
     }
 
     @ApiOperation(value = "Get all users score in ranked order")

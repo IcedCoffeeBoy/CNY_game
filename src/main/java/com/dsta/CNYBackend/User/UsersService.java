@@ -1,6 +1,9 @@
 package com.dsta.CNYBackend.user;
 
 
+import com.dsta.CNYBackend.answer.Answer;
+import com.dsta.CNYBackend.user.model.UserResponse;
+import com.dsta.CNYBackend.user.model.UserScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,5 +69,15 @@ public class UsersService implements UserDetailsService {
         List<UserScore> userScores = users.stream().map(user -> new UserScore(user.getUsername(), user.getScore())).collect(Collectors.toList());
         return userScores;
     }
+
+    public List<UserResponse> getAllUserResponse(String username) {
+        User user = this.userRepository.findByUsername(username).get();
+        List<Answer> answers = user.getAnswers();
+        List<UserResponse> responses = answers.stream()
+                .map(answer -> new UserResponse(answer.getQuestion().getPosition(), answer.getChoice()))
+                .collect(Collectors.toList());
+        return responses;
+    }
+
 
 }
