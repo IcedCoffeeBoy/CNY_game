@@ -4,6 +4,7 @@ import com.dsta.CNYBackend.answer.Answer;
 import com.dsta.CNYBackend.shared.security.JwtResponse;
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -83,6 +84,7 @@ public class UserController {
         return ResponseEntity.ok(user.getAnswers());
     }
 
+    @ApiOperation(value = "Get all users score in ranked order")
     @GetMapping(value = "/rank", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getRank() {
         return ResponseEntity.ok(this.userDetailService.getAllUserScore());

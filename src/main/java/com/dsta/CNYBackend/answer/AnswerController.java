@@ -3,15 +3,16 @@ package com.dsta.CNYBackend.answer;
 import com.dsta.CNYBackend.question.Question;
 import com.dsta.CNYBackend.question.QuestionService;
 import com.dsta.CNYBackend.user.User;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -29,7 +30,8 @@ public class AnswerController {
         this.questionService = questionService;
     }
 
-    @PostMapping(value = "/submit/{position}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Submit choice for question(position). Requires JWT token header")
+    @RequestMapping(value = "/submit/{position}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> submitAnswer(
             @PathVariable("position") Integer position,
             @RequestBody Choice choice,
@@ -41,10 +43,10 @@ public class AnswerController {
         }
         User user = (User) authentication.getPrincipal();
         Question question = this.questionService.getQuestionByPosition(position);
-        this.answerService.save(question, choice.getChoice(), user);
-
+        Answer save = this.answerService.put(question, choice.getChoice(), user);
         Map<String, String> sucesss = new HashMap<>();
         sucesss.put("success", "Answer has been recorded");
+        sucesss.put("choice", save.getChoice().toString());
         return ResponseEntity.ok(sucesss);
     }
 
