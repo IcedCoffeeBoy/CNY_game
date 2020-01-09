@@ -32,7 +32,7 @@ public class AnswerController {
     @PostMapping(value = "/submit/{position}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> submitAnswer(
             @PathVariable("position") Integer position,
-            @RequestBody Answer answer,
+            @RequestBody Choice choice,
             Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             Map<String, String> errors = new HashMap<>();
@@ -41,7 +41,7 @@ public class AnswerController {
         }
         User user = (User) authentication.getPrincipal();
         Question question = this.questionService.getQuestionByPosition(position);
-        this.answerService.save(question, answer.getChoice(), user);
+        this.answerService.save(question, choice.getChoice(), user);
 
         Map<String, String> sucesss = new HashMap<>();
         sucesss.put("success", "Answer has been recorded");
