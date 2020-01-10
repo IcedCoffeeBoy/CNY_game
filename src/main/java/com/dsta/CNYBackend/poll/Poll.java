@@ -20,6 +20,7 @@ public class Poll {
     @Column(name = "question_position")
     private Integer questionPosition;
 
+
     @Column(name = "choice")
     private Long choice;
 

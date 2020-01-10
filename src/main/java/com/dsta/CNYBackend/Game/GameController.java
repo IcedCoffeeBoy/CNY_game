@@ -62,8 +62,21 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
+    @ApiOperation(value = "Delete all answer and score and reset the game to EMPTY")
     @GetMapping(value = "/reset", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> resetGame() {
+    public ResponseEntity<Map<String, String>> resetGame(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("Error", "Not user login");
+            return ResponseEntity.badRequest().body(map);
+        }
+
+        if (!"admin".equals(authentication.getName())) {
+            Map<String, String> map = new HashMap<String, String>();
+            map.put("Error", "Only admin can reset the game");
+            return ResponseEntity.badRequest().body(map);
+        }
+
         if (!this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "There is not existing game");
