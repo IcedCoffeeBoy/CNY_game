@@ -62,8 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins(
-                                "http://perrywzm.github.io/CNY_Frontend",
-                                "https://perrywzm.github.io/CNY_Frontend",
+                                "http://perrywzm.github.io",
+                                "https://perrywzm.github.io",
                                 "http://eitcnyadmin.z23.web.core.windows.net",
                                 "https://eitcnyadmin.z23.web.core.windows.net",
                                 "http://localhost:8080",
