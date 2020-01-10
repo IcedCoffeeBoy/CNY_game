@@ -1,18 +1,17 @@
 package com.dsta.CNYBackend.user;
 
-import com.dsta.CNYBackend.answer.Answer;
 import com.dsta.CNYBackend.shared.security.JwtResponse;
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
+import com.dsta.CNYBackend.user.model.UserRank;
 import com.dsta.CNYBackend.user.model.UserResponse;
+import com.dsta.CNYBackend.user.model.UserScore;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -86,13 +84,17 @@ public class UserController {
         return ResponseEntity.ok(responses);
     }
 
-    @ApiOperation(value = "Get all users score in ranked order. If size is not given, the default is 10  ")
+    @ApiOperation(value = "Get your own rank based on JWT token")
     @GetMapping(value = "/rank", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getRank(@RequestParam(value = "size", required = false) Integer size) {
-        if (size == null) {
-            size = 10;
+    public ResponseEntity<?> getRank(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("error", "User is not authenticated");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errors);
         }
-        return ResponseEntity.ok(this.userDetailService.getUserScores(size));
+        User user = (User) authentication.getPrincipal();
+        UserRank rank = this.userDetailService.getUserRank(user);
+        return ResponseEntity.ok(rank);
     }
 
 

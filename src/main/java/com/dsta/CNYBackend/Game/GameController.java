@@ -1,5 +1,7 @@
 package com.dsta.CNYBackend.game;
 
+import com.dsta.CNYBackend.user.UsersService;
+import com.dsta.CNYBackend.user.model.UserScore;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,13 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/game")
 public class GameController {
-    @Autowired
     private GameService gameService;
+    private UsersService userService;
+
+    @Autowired
+    public GameController(GameService gameService, UsersService userService) {
+        this.gameService = gameService;
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/start", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> startGame(Authentication authentication) {
@@ -112,5 +121,16 @@ public class GameController {
     public ResponseEntity<GameState> getState() {
         return ResponseEntity.ok(this.gameService.getGameState());
     }
+
+    @ApiOperation(value = "Get all users score in ranked order. If size is not given, the default is 10  ")
+    @GetMapping("/rank")
+    public ResponseEntity<List<UserScore>> getUsersScore(@RequestParam(value = "size", required = false) Integer size) {
+        if (size == null) {
+            size = 10;
+        }
+        return ResponseEntity.ok(this.userService.getUserScores(size));
+
+    }
+
 
 }

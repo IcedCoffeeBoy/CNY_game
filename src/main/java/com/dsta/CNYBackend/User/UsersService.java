@@ -2,6 +2,7 @@ package com.dsta.CNYBackend.user;
 
 
 import com.dsta.CNYBackend.answer.Answer;
+import com.dsta.CNYBackend.user.model.UserRank;
 import com.dsta.CNYBackend.user.model.UserResponse;
 import com.dsta.CNYBackend.user.model.UserScore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,27 @@ public class UsersService implements UserDetailsService {
         }
     }
 
+    public UserRank getUserRank(User user) {
+        List<UserScore> scores = this.getUserScores(50);
+        int length = scores.size();
+        int rank = -1;
+        for (int i = 0; i < length; i++) {
+            if (user.getUsername().equals(scores.get(i).getUsername())) {
+                rank = i + 1;
+                break;
+            }
+        }
+        return new UserRank(user.getUsername(), rank);
+    }
+
+    public UserScore getUserScore(String username) {
+        User user = this.loadUserObjectByUsername(username);
+        return new UserScore(user.getUsername(), user.getScore());
+    }
+
     public List<UserScore> getUserScores(int size) {
-        List<UserScore> users = this.userRepository.findOrderByScore(PageRequest.of(0,size));
-        return users;
+        List<UserScore> scores = this.userRepository.findOrderByScore(PageRequest.of(0, size));
+        return scores;
     }
 
     public List<UserResponse> getAllUserResponse(String username) {
