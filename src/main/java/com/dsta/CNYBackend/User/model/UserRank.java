@@ -3,10 +3,12 @@ package com.dsta.CNYBackend.user.model;
 public class UserRank {
     private String username;
     private Integer rank;
+    private Integer score;
 
-    public UserRank(String username, Integer rank) {
+    public UserRank(String username, Integer rank, Integer score) {
         this.username = username;
         this.rank = rank;
+        this.score = score;
     }
 
     public String getUsername() {
@@ -23,5 +25,13 @@ public class UserRank {
 
     public void setRank(Integer rank) {
         this.rank = rank;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

@@ -76,7 +76,7 @@ public class UsersService implements UserDetailsService {
                 break;
             }
         }
-        return new UserRank(user.getUsername(), rank);
+        return new UserRank(user.getUsername(), rank, user.getScore());
     }
 
     public UserScore getUserScore(String username) {
