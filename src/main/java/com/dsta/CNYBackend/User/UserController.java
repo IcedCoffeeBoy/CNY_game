@@ -86,10 +86,13 @@ public class UserController {
         return ResponseEntity.ok(responses);
     }
 
-    @ApiOperation(value = "Get all users score in ranked order")
+    @ApiOperation(value = "Get all users score in ranked order. If size is not given, the default is 10  ")
     @GetMapping(value = "/rank", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> getRank() {
-        return ResponseEntity.ok(this.userDetailService.getAllUserScore());
+    public ResponseEntity<?> getRank(@RequestParam(value = "size", required = false) Integer size) {
+        if (size == null) {
+            size = 10;
+        }
+        return ResponseEntity.ok(this.userDetailService.getUserScores(size));
     }
 
 

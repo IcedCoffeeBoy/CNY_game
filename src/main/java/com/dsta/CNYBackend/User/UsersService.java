@@ -6,6 +6,7 @@ import com.dsta.CNYBackend.user.model.UserResponse;
 import com.dsta.CNYBackend.user.model.UserScore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -63,11 +64,9 @@ public class UsersService implements UserDetailsService {
         }
     }
 
-    public List<UserScore> getAllUserScore() {
-        List<User> users = this.userRepository.findAll();
-        users.sort((user1, user2) -> user2.getScore() - user1.getScore());
-        List<UserScore> userScores = users.stream().map(user -> new UserScore(user.getUsername(), user.getScore())).collect(Collectors.toList());
-        return userScores;
+    public List<UserScore> getUserScores(int size) {
+        List<UserScore> users = this.userRepository.findOrderByScore(PageRequest.of(0,size));
+        return users;
     }
 
     public List<UserResponse> getAllUserResponse(String username) {
