@@ -5,6 +5,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.Timer;
 
+
+/**
+ * Manages the game
+ */
 @Component
 public class GameComponent {
     @Autowired

@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller for REST api endpoint
+ */
 @RestController
 @RequestMapping(value = "/api/game")
 public class GameController {
@@ -129,7 +132,12 @@ public class GameController {
             size = 10;
         }
         return ResponseEntity.ok(this.userService.getUserScores(size));
+    }
 
+    @ApiOperation(value = "Get all unanswered users")
+    @GetMapping("/waiting")
+    public ResponseEntity<List<String>> getWaiting() {
+        return ResponseEntity.ok(this.gameService.getWaitingParticipants());
     }
 
 

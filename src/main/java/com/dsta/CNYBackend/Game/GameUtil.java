@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+/**
+ * Utilities for giving out the points the users and calculate the winning choice for each question
+ */
 @Component
 public class GameUtil {
     private UsersService usersService;

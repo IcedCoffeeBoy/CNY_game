@@ -1,5 +1,6 @@
 package com.dsta.CNYBackend.answer;
 
+import com.dsta.CNYBackend.game.GameParticipant;
 import com.dsta.CNYBackend.question.Question;
 import com.dsta.CNYBackend.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import java.util.Optional;
 @Transactional
 public class AnswerService {
     private AnswerRepository answerRepository;
+    private GameParticipant gameParticipant;
 
     @Autowired
-    public AnswerService(AnswerRepository answerRepository) {
+    public AnswerService(AnswerRepository answerRepository, GameParticipant gameParticipant) {
         this.answerRepository = answerRepository;
+        this.gameParticipant = gameParticipant;
     }
 
     public Answer save(Question question, Long choice, User user) {
@@ -40,6 +43,7 @@ public class AnswerService {
         }
         answer.setChoice(choice);
         Answer save = this.answerRepository.save(answer);
+        this.gameParticipant.removeFromWaiting(user.getUsername());
         return save;
     }
 

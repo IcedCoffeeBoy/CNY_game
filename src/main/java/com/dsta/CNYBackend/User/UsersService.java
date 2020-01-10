@@ -2,6 +2,7 @@ package com.dsta.CNYBackend.user;
 
 
 import com.dsta.CNYBackend.answer.Answer;
+import com.dsta.CNYBackend.game.model.Participant;
 import com.dsta.CNYBackend.user.model.UserRank;
 import com.dsta.CNYBackend.user.model.UserResponse;
 import com.dsta.CNYBackend.user.model.UserScore;
@@ -86,6 +87,10 @@ public class UsersService implements UserDetailsService {
     public List<UserScore> getUserScores(int size) {
         List<UserScore> scores = this.userRepository.findOrderByScore(PageRequest.of(0, size));
         return scores;
+    }
+
+    public List<Participant> getAllParticipants() {
+        return this.userRepository.findAllParticipants(PageRequest.of(0, 100));
     }
 
     public List<UserResponse> getAllUserResponse(String username) {

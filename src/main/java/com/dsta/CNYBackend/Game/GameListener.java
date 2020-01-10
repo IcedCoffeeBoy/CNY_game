@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Controller for websocket
+ */
 @Controller
 public class GameListener {
     @Autowired

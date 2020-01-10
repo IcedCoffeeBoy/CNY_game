@@ -4,7 +4,6 @@ import com.dsta.CNYBackend.shared.security.JwtResponse;
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
 import com.dsta.CNYBackend.user.model.UserRank;
 import com.dsta.CNYBackend.user.model.UserResponse;
-import com.dsta.CNYBackend.user.model.UserScore;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -97,7 +98,7 @@ public class UserController {
         return ResponseEntity.ok(rank);
     }
 
-
+    @Deprecated
     private Cookie createCookie(String cookieName, String cookieValue) {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
