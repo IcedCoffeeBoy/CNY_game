@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -40,8 +39,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Answer> answers;
 
-    @Column(name="score")
-    private Integer score;
+    @Column(name = "score")
+    private Integer score = 0;
 
 
     @Override
