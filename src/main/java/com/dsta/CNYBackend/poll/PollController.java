@@ -41,5 +41,4 @@ public class PollController {
         return ResponseEntity.ok(this.pollService.getAll());
     }
 
-
 }

@@ -46,7 +46,9 @@ public class GameComponent {
 
     public GameState reset() {
         this.gameState = new GameState();
-        this.scheduleTimer.cancel();
+        if (this.scheduleTimer != null) {
+            this.scheduleTimer.cancel();
+        }
         this.listener.sendGameState(this.gameState);
         return this.gameState;
     }

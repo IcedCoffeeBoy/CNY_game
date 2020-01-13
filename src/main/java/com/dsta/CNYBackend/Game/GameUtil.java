@@ -44,8 +44,9 @@ public class GameUtil {
 
     public void addPointsToWinner(Integer position) {
         List<Answer> answers = answerService.getAnswersByQuestionPosition(position);
-        Long choice = getPoll(answers);
-        this.pollService.save(new Poll(position, choice));
+        Map<Long, Integer> summary = getPollSummary(answers);
+        Long choice = getMaxFromMap(summary);
+        this.pollService.save(new Poll(position, choice, summary));
         List<Answer> filter = filterAnswerByChoice(answers, choice);
         List<Answer> filterAndSort = sortAnswerByDate(filter);
         int point = 200;
@@ -79,7 +80,7 @@ public class GameUtil {
         return filter;
     }
 
-    private Long getPoll(List<Answer> answers) {
+    private Map<Long, Integer> getPollSummary(List<Answer> answers) {
         Map<Long, Integer> scores = new HashMap<>();
         for (Answer answer : answers) {
             Long choice = answer.getChoice();
@@ -92,7 +93,7 @@ public class GameUtil {
                 scores.put(choice, score);
             }
         }
-        return getMaxFromMap(scores);
+        return scores;
     }
 
     private Long getMaxFromMap(Map<Long, Integer> map) {
