@@ -17,7 +17,7 @@ public class GameComponent {
     GameUtil gameUtil;
     GameState gameState;
     Timer scheduleTimer;
-    int timer = 60;
+    int timer = 5 * 60 * 1000;
     int questionSize;
 
     public GameComponent() {
@@ -69,7 +69,7 @@ public class GameComponent {
         }
         this.gameState.nextQuestion();
         this.scheduleTimer = new Timer();
-        this.scheduleTimer.schedule(new GameTimerTask(this, this.gameState.getQuestion(), this.gameState.getQuestionState()), 5000);
+        this.scheduleTimer.schedule(new GameTimerTask(this, this.gameState.getQuestion(), this.gameState.getQuestionState()), timer);
         this.listener.sendGameState(this.gameState);
     }
 

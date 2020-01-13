@@ -32,9 +32,13 @@ public class GameService {
         this.gameComponent.end();
     }
 
-    public void nextQuestion() {
-        this.gameComponent.nextQuestion();
-        this.gameParticipant.resetWaiting();
+    public void nextQuestionState() {
+        if (this.gameComponent.getGameState().questionState.equals(GameState.QuestionState.START)) {
+            this.gameComponent.endQuestion();
+        } else {
+            this.gameComponent.nextQuestion();
+            this.gameParticipant.resetWaiting();
+        }
     }
 
     public void resetGame() {

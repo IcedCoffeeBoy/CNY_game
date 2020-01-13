@@ -48,14 +48,15 @@ public class GameController {
         return ResponseEntity.ok(map);
     }
 
+    @ApiOperation(value = "Move to the next game state")
     @GetMapping(value = "/next", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> nextQuestion() {
+    public ResponseEntity<Map<String, String>> nextQuestionState() {
         if (!this.gameService.checkExistingGame()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "There is not existing game");
             return ResponseEntity.badRequest().body(map);
         }
-        this.gameService.nextQuestion();
+        this.gameService.nextQuestionState();
         Map<String, String> map = new HashMap<String, String>();
         map.put("Success", "Next question");
         return ResponseEntity.ok(map);
