@@ -90,11 +90,6 @@ public class GameController {
             return ResponseEntity.badRequest().body(map);
         }
 
-        if (!this.gameService.checkExistingGame()) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("Error", "There is not existing game");
-            return ResponseEntity.badRequest().body(map);
-        }
         this.gameService.resetGame();
         Map<String, String> map = new HashMap<String, String>();
         map.put("Success", "Reset game");

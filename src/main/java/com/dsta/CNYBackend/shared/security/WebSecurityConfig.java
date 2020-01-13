@@ -95,7 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/authenticate", "/topic/*", "/game/*", "/api/user/create").permitAll()
+                    .antMatchers("/authenticate", "/topic/*", "/game/*", "/api/user/create", "/api/question/*", "/api/poll/*").permitAll()
                     .antMatchers("/",
                             "/favicon.ico",
                             "/**/*.png",
@@ -125,7 +125,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
+                    .antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/api/poll/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
                     .antMatchers("/",
                             "/favicon.ico",
                             "/**/*.png",
