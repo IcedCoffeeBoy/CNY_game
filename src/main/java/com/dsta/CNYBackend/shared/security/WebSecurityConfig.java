@@ -64,6 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .allowedOrigins(
                                 "http://perrywzm.github.io",
                                 "https://perrywzm.github.io",
+                                "https://eitcny2020.z23.web.core.windows.net",
+                                "https://eitcny2020.azureedge.net",
                                 "http://eitcnyadmin.z23.web.core.windows.net",
                                 "https://eitcnyadmin.z23.web.core.windows.net",
                                 "http://localhost:8080",
