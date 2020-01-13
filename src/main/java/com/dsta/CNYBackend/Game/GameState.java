@@ -46,6 +46,7 @@ public class GameState {
     public void endGameAndSetProgressToEnd() {
         this.setQuestionState(GameState.QuestionState.END);
         this.progress = ProgressState.END;
+        this.question = 0;
     }
 
     public void endQuestion() {
