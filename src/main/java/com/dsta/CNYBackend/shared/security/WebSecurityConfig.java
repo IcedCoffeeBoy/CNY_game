@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -74,6 +75,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         )
                         .allowCredentials(true);
             }
+
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addRedirectViewController("/", "/swagger-ui.html");
+            }
+
 
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
