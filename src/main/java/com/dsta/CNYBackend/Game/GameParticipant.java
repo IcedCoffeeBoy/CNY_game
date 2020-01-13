@@ -20,6 +20,7 @@ public class GameParticipant {
     @Autowired
     public GameParticipant(UsersService usersService) {
         this.usersService = usersService;
+        this.getAllParticipant();
     }
 
     // Execute when the game starts
