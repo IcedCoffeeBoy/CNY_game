@@ -11,12 +11,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "poll_summary")
-@SequenceGenerator(name = "pollSummaryIdSeq", sequenceName = "poll_summary_id_seq", allocationSize = 1)
-public class PollSummary {
+@Table(name = "poll_choice")
+@SequenceGenerator(name = "pollChoiceIdSeq", sequenceName = "poll_choice_id_seq", allocationSize = 1)
+public class PollChoice {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "poll_summary_id_seq")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "poll_choice_id_seq")
+    private Long Id;
 
     @ManyToOne
     @JoinColumn(name = "poll_id")
@@ -25,16 +25,12 @@ public class PollSummary {
     @Column(name = "choice")
     private Long Choice;
 
-    @Column(name = "number")
-    private Integer number;
-
-    public PollSummary() {
-    }
-
-    public PollSummary(Poll poll, Long choice, Integer number) {
+    public PollChoice(Poll poll, Long choice) {
         this.poll = poll;
         Choice = choice;
-        this.number = number;
+    }
+
+    public PollChoice() {
     }
 
     public Long getChoice() {
@@ -45,16 +41,8 @@ public class PollSummary {
         Choice = choice;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
     @Override
     public int hashCode() {
-        return getChoice().intValue() * 1000 + number;
+        return getChoice().intValue();
     }
 }

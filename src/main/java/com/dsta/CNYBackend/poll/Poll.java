@@ -13,9 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "poll")
@@ -29,21 +31,21 @@ public class Poll {
     @Column(name = "question_position")
     private Integer questionPosition;
 
-    @Column(name = "choice")
-    private Long choice;
+    @OneToMany(mappedBy = "poll", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<PollChoice> choices;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "poll")
-    @Fetch(FetchMode.JOIN)
-    private List<PollSummary> pollSummaries;
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<PollSummary> pollSummaries;
 
     public Poll() {
     }
 
-    public Poll(Integer questionPosition, Long choice, Map<Long, Integer> pollSummaryMap) {
+    public Poll(Integer questionPosition, List<Long> choices, Map<Long, Integer> pollSummaryMap) {
         this.questionPosition = questionPosition;
-        this.choice = choice;
-        this.pollSummaries = new ArrayList<>();
-
+        this.choices = choices.stream().map(choice -> new PollChoice(this, choice)).collect(Collectors.toSet());
+        this.pollSummaries = new HashSet<>();
         for (Long selectedChoice : pollSummaryMap.keySet()) {
             this.pollSummaries.add(new PollSummary(this, selectedChoice, pollSummaryMap.get(selectedChoice)));
         }
@@ -65,19 +67,19 @@ public class Poll {
         this.questionPosition = questionPosition;
     }
 
-    public Long getChoice() {
-        return choice;
+    public Set<PollChoice> getChoices() {
+        return choices;
     }
 
-    public void setChoice(Long choice) {
-        this.choice = choice;
+    public void setChoices(Set<PollChoice> choices) {
+        this.choices = choices;
     }
 
-    public List<PollSummary> getPollSummaries() {
+    public Set<PollSummary> getPollSummaries() {
         return pollSummaries;
     }
 
-    public void setPollSummaries(List<PollSummary> pollSummaries) {
+    public void setPollSummaries(Set<PollSummary> pollSummaries) {
         this.pollSummaries = pollSummaries;
     }
 }

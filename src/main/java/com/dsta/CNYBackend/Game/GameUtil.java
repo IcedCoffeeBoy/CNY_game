@@ -11,6 +11,7 @@ import com.dsta.CNYBackend.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -45,9 +46,9 @@ public class GameUtil {
     public void addPointsToWinner(Integer position) {
         List<Answer> answers = answerService.getAnswersByQuestionPosition(position);
         Map<Long, Integer> summary = getPollSummary(answers);
-        Long choice = getMaxFromMap(summary);
-        this.pollService.save(new Poll(position, choice, summary));
-        List<Answer> filter = filterAnswerByChoice(answers, choice);
+        List<Long> choices = getMaxFromMap(summary);
+        this.pollService.save(new Poll(position, choices, summary));
+        List<Answer> filter = filterAnswerByChoices(answers, choices);
         List<Answer> filterAndSort = sortAnswerByDate(filter);
         int point = 200;
         int falloff = point / (filterAndSort.size() + 1);
@@ -73,9 +74,9 @@ public class GameUtil {
     }
 
 
-    private List<Answer> filterAnswerByChoice(List<Answer> answers, Long choice) {
+    private List<Answer> filterAnswerByChoices(List<Answer> answers, List<Long> choices) {
         List<Answer> filter = answers.stream()
-                .filter(answer -> answer.getChoice().intValue() == choice.intValue())
+                .filter(answer -> choices.contains(answer.getChoice()))
                 .collect(Collectors.toList());
         return filter;
     }
@@ -96,17 +97,20 @@ public class GameUtil {
         return scores;
     }
 
-    private Long getMaxFromMap(Map<Long, Integer> map) {
-        Long choice = null;
+    private List<Long> getMaxFromMap(Map<Long, Integer> map) {
+        List<Long> choices = null;
         Integer max = 0;
         for (Long key : map.keySet()) {
             Integer value = map.get(key);
             if (value.compareTo(max) > 0) {
                 max = value;
-                choice = key;
+                choices = new ArrayList<>();
+                choices.add(key);
+            } else if (value.compareTo(max) == 0) {
+                choices.add(key);
             }
         }
-        return choice;
+        return choices;
     }
 
 }

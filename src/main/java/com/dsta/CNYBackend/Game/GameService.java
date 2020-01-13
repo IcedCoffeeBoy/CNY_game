@@ -44,13 +44,15 @@ public class GameService {
     public void resetGame() {
         Query q1 = this.em.createQuery("DELETE FROM Answer a");
         Query q2 = this.em.createQuery("DELETE FROM PollSummary p ");
-        Query q3 = this.em.createQuery("DELETE FROM Poll p");
-        Query q4 = this.em.createQuery("DELETE FROM User u WHERE u.username!='admin'");
+        Query q3 = this.em.createQuery("DELETE FROM PollChoice p");
+        Query q4 = this.em.createQuery("DELETE FROM Poll p");
+        Query q5 = this.em.createQuery("DELETE FROM User u WHERE u.username!='admin'");
 
         q1.executeUpdate();
         q2.executeUpdate();
         q3.executeUpdate();
         q4.executeUpdate();
+        q5.executeUpdate();
 
         this.gameComponent.reset();
     }
