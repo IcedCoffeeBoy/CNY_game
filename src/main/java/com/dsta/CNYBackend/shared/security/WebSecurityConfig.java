@@ -28,7 +28,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String[] ALLOWED_ORIGINS = {
             "http://perrywzm.github.io", "https://perrywzm.github.io",
-            "https://eitcny2020.z23.web.core.windows.net", "https://eitcny2020.azureedge.net",
+            "https://eitcny2020.z23.web.core.windows.net", "https://eitcnyproj.z23.web.core.windows.net", "https://eitcny2020.azureedge.net",
             "http://eitcnyadmin.z23.web.core.windows.net", "https://eitcnyadmin.z23.web.core.windows.net",
             "http://localhost:8080", "http://localhost:3000", "http://localhost:4200"
     };
