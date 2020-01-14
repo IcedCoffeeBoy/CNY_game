@@ -136,5 +136,11 @@ public class GameController {
         return ResponseEntity.ok(this.gameService.getWaitingParticipants());
     }
 
+    @ApiOperation(value = "Get all game participants")
+    @GetMapping("/participants")
+    public ResponseEntity<List<String>> getParticipants() {
+        return ResponseEntity.ok(this.gameService.getAllParticipants());
+    }
+
 
 }

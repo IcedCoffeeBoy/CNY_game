@@ -1,7 +1,10 @@
 package com.dsta.CNYBackend.shared.security;
 
+import com.dsta.CNYBackend.game.GameService;
+import com.dsta.CNYBackend.shared.model.ErrorResponse;
 import com.dsta.CNYBackend.user.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,6 +29,8 @@ public class JwtAuthenticationController {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private GameService gameService;
 
     private int MAX_AGE_SECONDS = 3600 * 3600;
 
@@ -36,6 +41,10 @@ public class JwtAuthenticationController {
         String password = authenticationRequest.getPassword();
         if (username == "admin" && !password.equals(correctPassword)) {
             return ResponseEntity.notFound().build();
+        }
+        if (this.gameService.checkUserParticipating(username)) {
+            ErrorResponse error = new ErrorResponse("The user have login");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
         final UserDetails userDetails = usersService
                 .loadUserByUsername(authenticationRequest.getUsername());

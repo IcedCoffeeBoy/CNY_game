@@ -1,9 +1,10 @@
 package com.dsta.CNYBackend.game;
 
 import com.dsta.CNYBackend.game.model.Participant;
-import com.dsta.CNYBackend.user.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,32 +14,67 @@ import java.util.List;
  */
 @Component
 public class GameParticipant {
-    private UsersService usersService;
     private List<Participant> participants;
     private List<Participant> waitingParticipants;
 
-    @Autowired
-    public GameParticipant(UsersService usersService) {
-        this.usersService = usersService;
-        this.getAllParticipant();
+    public GameParticipant() {
+        this.participants = new ArrayList<>();
+        this.waitingParticipants = new ArrayList<>();
     }
 
-    // Execute when the game starts
-    public void getAllParticipant() {
-        this.participants = this.usersService.getAllParticipants();
-        this.participants.removeIf(participant -> participant.getUsername().equals("admin"));
-        this.resetWaiting();
+    @EventListener(SessionSubscribeEvent.class)
+    public void handleSubscribe(SessionSubscribeEvent event) {
+        if ("admin".equals(event.getUser().getName())) {
+            return;
+        }
+        this.addParticipant(event.getUser().getName());
+    }
+
+    @EventListener(SessionDisconnectEvent.class)
+    public void handleWebSocketDisconnect(SessionDisconnectEvent event) {
+        this.removeParticipant(event.getUser().getName());
+    }
+
+    public void reset() {
+        this.participants = new ArrayList<>();
+        this.waitingParticipants = new ArrayList<>();
+    }
+
+    public Boolean checkParticipant(String username) {
+        for (Participant participant : this.participants) {
+            if (participant.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addParticipant(String username) {
+        Participant newParticipant = new Participant(username);
+        this.participants.add(newParticipant);
+        this.waitingParticipants.add(newParticipant);
+    }
+
+    private void removeParticipant(String username) {
+        this.participants.removeIf(participant -> participant.getUsername().equals(username));
+        this.waitingParticipants.removeIf(participant -> participant.getUsername().equals(username));
     }
 
     public void resetWaiting() {
-        this.waitingParticipants =  new ArrayList<>(this.participants);
+        this.waitingParticipants = new ArrayList<>(this.participants);
     }
 
     public void removeFromWaiting(String username) {
         this.waitingParticipants.removeIf(participant -> participant.getUsername().equals(username));
     }
 
-    public List<Participant> getWaiting(){
+    public List<Participant> getParticipants() {
+        return this.participants;
+    }
+
+    public List<Participant> getWaiting() {
         return this.waitingParticipants;
     }
+
+
 }

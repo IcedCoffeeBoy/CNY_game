@@ -25,7 +25,6 @@ public class GameService {
 
     public void startGame() {
         this.gameComponent.start();
-        this.gameParticipant.getAllParticipant();
     }
 
     public void endGame() {
@@ -55,6 +54,7 @@ public class GameService {
         q5.executeUpdate();
 
         this.gameComponent.reset();
+        this.gameParticipant.reset();
     }
 
     public void openGame() {
@@ -70,8 +70,16 @@ public class GameService {
         }
     }
 
+    public List<String> getAllParticipants() {
+        return this.gameParticipant.getParticipants().stream().map(participant -> participant.getUsername()).collect(Collectors.toUnmodifiableList());
+    }
+
     public List<String> getWaitingParticipants() {
         return this.gameParticipant.getWaiting().stream().map(participant -> participant.getUsername()).collect(Collectors.toUnmodifiableList());
+    }
+
+    public Boolean checkUserParticipating(String username) {
+        return this.gameParticipant.checkParticipant(username);
     }
 
     public void setGameTimer(int timer) {
