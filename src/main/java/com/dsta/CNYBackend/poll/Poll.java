@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "poll")
@@ -44,8 +43,12 @@ public class Poll {
 
     public Poll(Integer questionPosition, List<Long> choices, Map<Long, Integer> pollSummaryMap) {
         this.questionPosition = questionPosition;
-        this.choices = choices.stream().map(choice -> new PollChoice(this, choice)).collect(Collectors.toSet());
+        this.choices = new HashSet<>();
         this.pollSummaries = new HashSet<>();
+
+        for (Long choice : choices) {
+            this.choices.add(new PollChoice(this, choice));
+        }
         for (Long selectedChoice : pollSummaryMap.keySet()) {
             this.pollSummaries.add(new PollSummary(this, selectedChoice, pollSummaryMap.get(selectedChoice)));
         }
