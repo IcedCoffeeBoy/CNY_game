@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PollService {
     private PollRepository pollRepository;
 
@@ -26,8 +28,7 @@ public class PollService {
         poll.setQuestionPosition(position);
         return this.pollRepository.findOne(Example.of(poll));
     }
-
-
+    
     public List<Poll> getAll() {
         return this.pollRepository.findAll();
     }
