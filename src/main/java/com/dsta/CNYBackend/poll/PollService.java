@@ -1,5 +1,6 @@
 package com.dsta.CNYBackend.poll;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -10,13 +11,14 @@ import java.util.Optional;
 public class PollService {
     private PollRepository pollRepository;
 
-
+    @Autowired
     public PollService(PollRepository pollRepository) {
         this.pollRepository = pollRepository;
     }
 
     public Poll save(Poll poll) {
-        return this.pollRepository.save(poll);
+        Poll saved = this.pollRepository.saveAndFlush(poll);
+        return saved;
     }
 
     public Optional<Poll> getPollByPosition(Integer position) {

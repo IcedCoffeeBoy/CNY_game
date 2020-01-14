@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -23,10 +24,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class UsersService implements UserDetailsService {
     private UserRepository userRepository;
+    private EntityManager em;
 
     @Autowired
-    public UsersService(UserRepository userRepository) {
+    public UsersService(UserRepository userRepository, EntityManager entityManager) {
         this.userRepository = userRepository;
+        this.em = entityManager;
     }
 
     public User createUser(String username) {
@@ -37,7 +40,8 @@ public class UsersService implements UserDetailsService {
     }
 
     public User updateUser(User user) {
-        return this.userRepository.save(user);
+        User saved = this.userRepository.save(user);
+        return saved;
     }
 
     public Boolean checkExistingUser(String username) {
@@ -100,6 +104,11 @@ public class UsersService implements UserDetailsService {
                 .map(answer -> new UserResponse(answer.getQuestion().getPosition(), answer.getChoice()))
                 .collect(Collectors.toList());
         return responses;
+    }
+
+    public void endTransaction() {
+        this.em.flush();
+        this.em.getTransaction().commit();
     }
 
 
