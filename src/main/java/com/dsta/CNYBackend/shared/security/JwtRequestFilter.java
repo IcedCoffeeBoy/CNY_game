@@ -18,6 +18,9 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String AUTHORIZATION_HEADER_BEARER = "Bearer";
+
     @Autowired
     private UsersService usersService;
     @Autowired
@@ -27,13 +30,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
-        final String requestTokenHeader = request.getHeader("Authorization");
+        final String requestTokenHeader = request.getHeader(AUTHORIZATION_HEADER);
         String username = null;
         String jwtToken = null;
         // JWT Token is in the form "Bearer token". Remove Bearer word and get
         // only the Token
 
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer")) {
+        if (requestTokenHeader != null && requestTokenHeader.startsWith(AUTHORIZATION_HEADER_BEARER)) {
             jwtToken = requestTokenHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
@@ -43,7 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("JWT Token has expired");
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String \nfor: " + request.getRequestURI() + " , \nfrom: " + request.getRemoteUser());
+            logger.warn(String.format("JWT Token does not begin with Bearer String \nfor: %s and from: %s", request.getRequestURI(), request.getHeader("origin")));
         }
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
