@@ -26,9 +26,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    public static final String[] ALLOWED_ORIGINS = {
+            "http://perrywzm.github.io", "https://perrywzm.github.io",
+            "https://eitcny2020.z23.web.core.windows.net", "https://eitcny2020.azureedge.net",
+            "http://eitcnyadmin.z23.web.core.windows.net", "https://eitcnyadmin.z23.web.core.windows.net",
+            "http://localhost:8080", "http://localhost:3000", "http://localhost:4200"
+    };
+    public static final String[] ALLOWED_API = {
+            "/authenticate", "/topic/*", "/game/*",
+            "/api/user/create", "/api/question/*", "/api/poll/*", "/api/game/state", "/api/game/participants"
+    };
+    public static final String[] ALLOWED_SWAGGER_RESOURCES = {"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**"};
+    public static final String[] ALLOWED_RESOURCES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js"};
+    public static final String[] ALL_API = {"/api/question/*", "/api/game/*", "/api/user/*", "/api/poll/*", "/authenticate", "/topic/*", "/game/*", "/actuator"};
+
     @Value("${jwt.protect:false}")
     private Boolean isProtected;
-
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     @Autowired
@@ -62,17 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins(
-                                "http://perrywzm.github.io",
-                                "https://perrywzm.github.io",
-                                "https://eitcny2020.z23.web.core.windows.net",
-                                "https://eitcny2020.azureedge.net",
-                                "http://eitcnyadmin.z23.web.core.windows.net",
-                                "https://eitcnyadmin.z23.web.core.windows.net",
-                                "http://localhost:8080",
-                                "http://localhost:3000",
-                                "http://localhost:4200"
-                        )
+                        .allowedOrigins(ALLOWED_ORIGINS)
                         .allowCredentials(true);
             }
 
@@ -104,24 +107,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers(
-                            "/authenticate",
-                            "/topic/*",
-                            "/game/*",
-                            "/api/user/create",
-                            "/api/question/*",
-                            "/api/poll/*",
-                            "/api/game/state"
-                    ).permitAll()
-                    .antMatchers("/",
-                            "/favicon.ico",
-                            "/**/*.png",
-                            "/**/*.gif",
-                            "/**/*.svg",
-                            "/**/*.jpg",
-                            "/**/*.html",
-                            "/**/*.css",
-                            "/**/*.js")
+                    .antMatchers(ALLOWED_API).permitAll()
+                    .antMatchers(ALLOWED_RESOURCES)
                     .permitAll()
                     // all other requests need to be authenticated
                     .anyRequest().authenticated()
@@ -142,16 +129,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/api/question/*", "/api/game/*", "/api/user/*", "/api/poll/*", "/authenticate", "/topic/*", "/game/*", "/actuator").permitAll()
-                    .antMatchers("/",
-                            "/favicon.ico",
-                            "/**/*.png",
-                            "/**/*.gif",
-                            "/**/*.svg",
-                            "/**/*.jpg",
-                            "/**/*.html",
-                            "/**/*.css",
-                            "/**/*.js")
+                    .antMatchers(ALL_API).permitAll()
+                    .antMatchers(ALLOWED_RESOURCES)
                     .permitAll()
                     // all other requests need to be authenticated
                     .anyRequest().authenticated()
@@ -172,10 +151,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/game/**");
-
-        web.ignoring().antMatchers("/swagger-resources/**",
-                "/swagger-ui.html",
-                "/v2/api-docs",
-                "/webjars/**");
+        web.ignoring().antMatchers(ALLOWED_SWAGGER_RESOURCES);
     }
 }

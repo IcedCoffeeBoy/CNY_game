@@ -27,6 +27,7 @@ public class GameParticipant {
         if ("admin".equals(event.getUser().getName())) {
             return;
         }
+        System.out.println("Subscribed " + event.getUser().getName());
         this.addParticipant(event.getUser().getName());
     }
 

@@ -1,5 +1,8 @@
 package com.dsta.CNYBackend.game;
 
+import com.dsta.CNYBackend.shared.model.AdminErrorResponse;
+import com.dsta.CNYBackend.shared.model.ErrorResponse;
+import com.dsta.CNYBackend.shared.model.LoginErrorResponse;
 import com.dsta.CNYBackend.user.UsersService;
 import com.dsta.CNYBackend.user.model.UserScore;
 import io.swagger.annotations.ApiOperation;
@@ -63,11 +66,9 @@ public class GameController {
     }
 
     @GetMapping(value = "/end", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> endGame() {
+    public ResponseEntity<?> endGame() {
         if (!this.gameService.checkExistingGame()) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("Error", "There is not existing game");
-            return ResponseEntity.badRequest().body(map);
+            return ResponseEntity.badRequest().body(new ErrorResponse("There is an existing game"));
         }
         this.gameService.endGame();
         Map<String, String> map = new HashMap<String, String>();
@@ -77,17 +78,15 @@ public class GameController {
 
     @ApiOperation(value = "Delete all answer and score and reset the game to EMPTY")
     @GetMapping(value = "/reset", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> resetGame(Authentication authentication) {
+    public ResponseEntity<?> resetGame(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("Error", "Not user login");
-            return ResponseEntity.badRequest().body(map);
+            return ResponseEntity.badRequest().body(new LoginErrorResponse());
         }
 
         if (!"admin".equals(authentication.getName())) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("Error", "Only admin can reset the game");
-            return ResponseEntity.badRequest().body(map);
+            return ResponseEntity.badRequest().body(new AdminErrorResponse());
         }
 
         this.gameService.resetGame();
@@ -97,11 +96,9 @@ public class GameController {
     }
 
     @GetMapping(value = "/open", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> openGame() {
+    public ResponseEntity<?> openGame() {
         if (this.gameService.checkExistingGame()) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put("Error", "There is an existing game");
-            return ResponseEntity.badRequest().body(map);
+            return ResponseEntity.badRequest().body(new ErrorResponse("There is an existing game"));
         }
         this.gameService.openGame();
         Map<String, String> map = new HashMap<String, String>();

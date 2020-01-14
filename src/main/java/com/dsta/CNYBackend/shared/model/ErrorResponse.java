@@ -2,10 +2,13 @@ package com.dsta.CNYBackend.shared.model;
 
 public class ErrorResponse {
     private String error = "ERROR";
-    private String message;
 
-    public ErrorResponse(String message) {
-        this.message = message;
+
+    public ErrorResponse(String error) {
+        this.error = error;
+    }
+
+    public ErrorResponse() {
     }
 
     public String getError() {
@@ -16,11 +19,4 @@ public class ErrorResponse {
         this.error = error;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
