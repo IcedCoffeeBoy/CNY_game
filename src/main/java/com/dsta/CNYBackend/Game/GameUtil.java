@@ -98,7 +98,7 @@ public class GameUtil {
     }
 
     private List<Long> getMaxFromMap(Map<Long, Integer> map) {
-        List<Long> choices = null;
+        List<Long> choices = new ArrayList<>();
         Integer max = 0;
         for (Long key : map.keySet()) {
             Integer value = map.get(key);
