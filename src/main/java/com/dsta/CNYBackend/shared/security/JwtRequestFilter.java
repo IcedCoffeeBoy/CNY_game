@@ -18,8 +18,8 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-    private final String AUTHORIZATION_HEADER = "Authorization";
-    private final String AUTHORIZATION_HEADER_BEARER = "Bearer";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String AUTHORIZATION_HEADER_BEARER = "Bearer";
 
     @Autowired
     private UsersService usersService;
@@ -46,7 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("JWT Token has expired");
             }
         } else {
-            logger.warn(String.format("JWT Token does not begin with Bearer String \nfor: %s and from: %s", request.getRequestURI(), request.getHeader("origin")));
+            logger.warn(String.format("JWT Token does not begin with Bearer String for:%s and from:%s", request.getRequestURI(), request.getHeader("origin")));
         }
         // Once we get the token validate it.
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
