@@ -62,7 +62,7 @@ public class GameUtil {
             this.usersService.updateUser(user);
             point = point - falloff;
         }
-        this.usersService.endTransaction();
+        this.usersService.flush();
     }
 
     private List<Answer> sortAnswerByDate(List<Answer> answers) {

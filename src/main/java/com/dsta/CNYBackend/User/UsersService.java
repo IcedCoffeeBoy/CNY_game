@@ -106,9 +106,8 @@ public class UsersService implements UserDetailsService {
         return responses;
     }
 
-    public void endTransaction() {
+    public void flush() {
         this.em.flush();
-        this.em.getTransaction().commit();
     }
 
 

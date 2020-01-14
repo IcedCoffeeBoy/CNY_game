@@ -3,7 +3,7 @@ Author: Lee Ming Liang <br>
 This project is build using SpringBoot using embedded tomcat. <br>
 #### Technologies 
 - JWT authentication
-- Websocket
+- Websocket (Sockjs with STOMP)
 - Rest Api 
 - Hibernate/JPA 
 - SQL 
