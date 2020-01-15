@@ -3,15 +3,14 @@ package com.dsta.CNYBackend.poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+@Transactional
 public class PollService {
     private PollRepository pollRepository;
 
@@ -19,7 +18,8 @@ public class PollService {
     public PollService(PollRepository pollRepository) {
         this.pollRepository = pollRepository;
     }
-    
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Poll save(Poll poll) {
         Poll saved = this.pollRepository.saveAndFlush(poll);
         return saved;
@@ -30,7 +30,7 @@ public class PollService {
         poll.setQuestionPosition(position);
         return this.pollRepository.findOne(Example.of(poll));
     }
-    
+
     public List<Poll> getAll() {
         return this.pollRepository.findAll();
     }
