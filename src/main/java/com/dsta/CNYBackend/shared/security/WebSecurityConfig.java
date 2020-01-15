@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
     public static final String[] ALLOWED_API = {
             "/authenticate", "/topic/*", "/game/**", "/actuator/**",
-            "/api/user/create", "/api/question/*", "/api/poll/*", "/api/game/state", "/api/game/participants"
+            "/api/user/create", "/api/question/*", "/api/poll/*", "/api/game/state", "/api/game/participants", "/api/game/rank"
     };
     public static final String[] ALLOWED_SWAGGER_RESOURCES = {"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**"};
     public static final String[] ALLOWED_RESOURCES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js"};
