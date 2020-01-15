@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.game;
+package com.dsta.CNYBackend.shared.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

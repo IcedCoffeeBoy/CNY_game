@@ -78,6 +78,10 @@ public class GameService {
         return this.gameParticipant.getWaiting().stream().map(participant -> participant.getUsername()).collect(Collectors.toUnmodifiableList());
     }
 
+    public void removeFromWaiting(String username) {
+        this.gameParticipant.removeFromWaiting(username);
+    }
+
     public Boolean checkUserParticipating(String username) {
         return this.gameParticipant.checkParticipant(username);
     }

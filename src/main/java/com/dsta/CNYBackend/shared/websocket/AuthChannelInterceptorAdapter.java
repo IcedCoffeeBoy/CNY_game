@@ -1,4 +1,4 @@
-package com.dsta.CNYBackend.game;
+package com.dsta.CNYBackend.shared.websocket;
 
 import com.dsta.CNYBackend.shared.security.JwtTokenUtil;
 import com.dsta.CNYBackend.user.UsersService;
