@@ -89,6 +89,15 @@
             <artifactId>spring-security-messaging</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxjava</artifactId>
+        </dependency>
+        <!--IMPORTANT!!! ADD THIS DEPENDENCY TO SOLVE HttpMediaNotAcceptableException-->
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxjava-reactive-streams</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
