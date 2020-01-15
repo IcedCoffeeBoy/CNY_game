@@ -32,7 +32,7 @@ public class GameService {
     }
 
     public void nextQuestionState() {
-        if (this.gameComponent.getGameState().questionState.equals(GameState.QuestionState.START)) {
+        if (this.gameComponent.getGameState().getQuestionState().equals(GameState.QuestionState.START)) {
             this.gameComponent.endQuestion();
         } else {
             this.gameComponent.nextQuestion();

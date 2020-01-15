@@ -2,7 +2,6 @@ package com.dsta.CNYBackend.game;
 
 import java.util.Random;
 
-
 /**
  * Stores the state of the game
  */

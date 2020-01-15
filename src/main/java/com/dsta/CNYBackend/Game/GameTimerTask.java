@@ -16,7 +16,7 @@ public class GameTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        if (this.gameComponent.getGameState().question == this.question) {
+        if (this.gameComponent.getGameState().getQuestion() == this.question) {
             this.gameComponent.endQuestion();
         }
     }

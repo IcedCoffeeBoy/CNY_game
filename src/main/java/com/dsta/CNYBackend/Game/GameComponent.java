@@ -87,7 +87,7 @@ public class GameComponent {
     }
 
     public int getCurrentGameSessionId() {
-        return this.gameState.gameSessionId;
+        return this.gameState.getGameSessionId();
     }
 
     private Boolean isLastQuestion() {
