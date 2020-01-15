@@ -38,10 +38,4 @@ public class QuestionController {
         return ResponseEntity.ok(questions);
     }
 
-    @GetMapping(value = "/all-normal", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Question>> getAllQuestionsNormal() {
-        List<Question> questions = this.questionService.getAllQuestions();
-        return ResponseEntity.ok(questions);
-    }
-
 }
