@@ -2,6 +2,7 @@ package com.dsta.CNYBackend.game;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.Timer;
 
@@ -10,6 +11,7 @@ import java.util.Timer;
  * Manages the game
  */
 @Component
+@ApplicationScope
 public class GameComponent {
     @Autowired
     GameListener listener;

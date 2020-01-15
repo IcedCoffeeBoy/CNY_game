@@ -3,6 +3,7 @@ package com.dsta.CNYBackend.game;
 import com.dsta.CNYBackend.game.model.Participant;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * Keep tracks of all the participants and score in the game
  */
 @Component
+@ApplicationScope
 public class GameParticipant {
     private List<Participant> participants;
     private List<Participant> waitingParticipants;
