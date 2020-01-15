@@ -43,4 +43,11 @@ public class QuestionController {
                 .map(questions -> ResponseEntity.ok(questions))
                 .onErrorReturn(error -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping(value = "/all-normal", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Question>> getAllQuestionsNormal() {
+        List<Question> questions = this.questionService.getAllQuestions();
+        return ResponseEntity.ok(questions);
+    }
+
 }
