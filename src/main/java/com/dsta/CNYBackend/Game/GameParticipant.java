@@ -26,7 +26,6 @@ public class GameParticipant {
 
     @EventListener(SessionSubscribeEvent.class)
     public void handleSubscribe(SessionSubscribeEvent event) {
-        System.out.println("Subscribed " + event.getUser().getName());
         if ("admin".equals(event.getUser().getName()) || event.getUser() == null) {
             return;
         }
