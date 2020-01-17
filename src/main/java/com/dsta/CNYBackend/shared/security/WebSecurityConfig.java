@@ -107,9 +107,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers(ALLOWED_API).permitAll()
-                    .antMatchers(ALLOWED_RESOURCES)
-                    .permitAll()
+                    .antMatchers(ALLOWED_API).permitAll().filterSecurityInterceptorOncePerRequest(false)
+                    .antMatchers(ALLOWED_RESOURCES).permitAll().filterSecurityInterceptorOncePerRequest(false)
                     // all other requests need to be authenticated
                     .anyRequest().authenticated()
 
