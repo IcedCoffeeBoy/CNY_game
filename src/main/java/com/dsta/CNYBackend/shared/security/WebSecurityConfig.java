@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/user/create", "/api/question/*", "/api/poll/*", "/api/game/state", "/api/game/participants", "/api/game/rank"
     };
     public static final String[] ALLOWED_SWAGGER_RESOURCES = {"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**"};
-    public static final String[] ALLOWED_RESOURCES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js"};
+    public static final String[] ALLOWED_RESOURCES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js","/**/*.*"};
     public static final String[] ALL_API = {"/api/question/*", "/api/game/*", "/api/user/*", "/api/poll/*", "/authenticate", "/topic/*", "/game/*", "/actuator"};
 
     @Value("${jwt.protect:false}")
@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
-                registry.addRedirectViewController("/", "/swagger-ui.html");
+                registry.addRedirectViewController("/", "index.html");
             }
 
 
@@ -107,9 +107,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .cors().and()
                     .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers(ALLOWED_API).permitAll()
-                    .antMatchers(ALLOWED_RESOURCES)
-                    .permitAll()
+                    .antMatchers(ALLOWED_API).permitAll().filterSecurityInterceptorOncePerRequest(false)
+                    .antMatchers(ALLOWED_RESOURCES).permitAll().filterSecurityInterceptorOncePerRequest(false)
                     // all other requests need to be authenticated
                     .anyRequest().authenticated()
 
