@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/user/create", "/api/question/*", "/api/poll/*", "/api/game/state", "/api/game/participants", "/api/game/rank"
     };
     public static final String[] ALLOWED_SWAGGER_RESOURCES = {"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**"};
-    public static final String[] ALLOWED_RESOURCES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js","/**/*.*"};
+    public static final String[] ALLOWED_RESOURCES = {"/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js","/**/*.json*", "/public/*"};
     public static final String[] ALL_API = {"/api/question/*", "/api/game/*", "/api/user/*", "/api/poll/*", "/authenticate", "/topic/*", "/game/*", "/actuator"};
 
     @Value("${jwt.protect:false}")
@@ -92,6 +92,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 registry.addResourceHandler("/webjars/**")
                         .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+
+                registry.addResourceHandler("/static/**")
+                        .addResourceLocations("classpath:/public/static/");
+
             }
         };
     }
